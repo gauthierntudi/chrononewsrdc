@@ -1,0 +1,38 @@
+/**
+ * CHRONONEWS — Charte graphique
+ * @see chartes-infos.txt
+ */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Couleurs principales */
+    --cn-red: #d11810;
+    --cn-red-hover: #b0140e;
+    --cn-red-soft: rgba(209, 24, 16, 0.12);
+
+    --cn-black: #111111;
+    --cn-black-soft: #1A1A1A;
+
+    --cn-white: #FFFFFF;
+
+    --cn-blue: #1E5EFF;
+    --cn-blue-soft: rgba(30, 94, 255, 0.12);
+
+    /* Alias sémantiques */
+    --cn-primary: var(--cn-red);
+    --cn-primary-hover: var(--cn-red-hover);
+    --cn-accent: var(--cn-blue);
+    --cn-bg-dark: var(--cn-black);
+    --cn-bg-dark-soft: var(--cn-black-soft);
+    --cn-text: var(--cn-black-soft);
+    --cn-text-muted: #64748b;
+    --cn-surface: var(--cn-white);
+    --cn-border: #e2e8f0;
+
+    /* Typographie */
+    --cn-font-display: 'Montserrat', system-ui, sans-serif;
+    --cn-font-body: 'Poppins', system-ui, sans-serif;
+
+    --cn-success: #10b981;
+    --cn-error: var(--cn-red);
+}

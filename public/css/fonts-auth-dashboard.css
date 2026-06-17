@@ -1,0 +1,8 @@
+/**
+ * Typographie login + dashboard
+ * Titres : Barlow Semi Condensed · Corps : Google Sans
+ */
+:root {
+    --cn-font-display: 'Barlow Semi Condensed', system-ui, sans-serif;
+    --cn-font-body: 'Google Sans', system-ui, sans-serif;
+}
