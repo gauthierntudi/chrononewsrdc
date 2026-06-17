@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\JustForYouController;
 use App\Http\Controllers\Web\LegacyFrontController;
 use App\Http\Controllers\Web\LoginController;
+use App\Http\Controllers\Web\MediaRedirectController;
 use App\Http\Controllers\Web\PrivacyController;
 use App\Http\Controllers\Web\PublicationAjaxController;
 use App\Http\Controllers\Web\SearchController;
@@ -50,6 +51,13 @@ Route::get('/qui-sommes-nous', [AboutController::class, 'index'])->name('about')
 Route::get('/politique-de-confidentialite', [PrivacyController::class, 'index'])->name('privacy');
 
 Route::get('/og-image.php', [LegacyFrontController::class, 'ogImage']);
+
+/*
+| Médias legacy (/uploads/…) — redirige vers S3 quand MEDIA_DISK=s3
+*/
+Route::get('/uploads/{path}', [MediaRedirectController::class, 'uploads'])
+    ->where('path', '.*')
+    ->name('media.uploads');
 
 /*
 |--------------------------------------------------------------------------

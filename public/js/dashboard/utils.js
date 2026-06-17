@@ -302,11 +302,13 @@
                 relative = relative.slice('publication/'.length);
             }
 
-            if (cfg.mediaBaseUrl) {
-                return `${String(cfg.mediaBaseUrl).replace(/\/$/, '')}/${relative}`;
+            const base = String(cfg.mediaBaseUrl || '').replace(/\/$/, '');
+            if (base) {
+                return `${base}/${relative}`;
             }
 
-            return path.startsWith('/') ? path : `/${path}`;
+            // Fallback : /uploads/* est redirigé vers S3 en production (MediaRedirectController)
+            return `/${relative}`;
         },
 
         extractArticlesList(data) {

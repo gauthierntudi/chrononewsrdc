@@ -39,6 +39,12 @@ php artisan media:migrate-to-s3 --source=/chemin/vers/publication/uploads
 
 Le bucket doit autoriser la lecture publique de `uploads/*` (politique de compartiment S3).
 
+### Laravel Cloud
+
+Sur **Laravel Cloud**, ajoutez les mêmes variables d'environnement (`MEDIA_DISK`, `AWS_*`) dans le panneau **Environment**. Sans elles, les images du dashboard pointent vers `/uploads/…` sur le domaine Cloud et renvoient 404.
+
+Après déploiement, les requêtes `/uploads/images/…` sont redirigées vers S3 automatiquement.
+
 ## Structure
 
 ```

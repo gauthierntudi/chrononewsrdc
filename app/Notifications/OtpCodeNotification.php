@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Mail\OtpCodeMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OtpCodeNotification extends Notification
@@ -20,16 +20,11 @@ class OtpCodeNotification extends Notification
         return ['mail'];
     }
 
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): OtpCodeMail
     {
-        $name = $notifiable->name ?: 'Utilisateur';
+        $name = trim((string) ($notifiable->nom ?? $notifiable->name ?? ''));
 
-        return (new MailMessage)
-            ->subject('Votre code de connexion — '.config('chrononews.name'))
-            ->greeting('Bonjour '.$name.',')
-            ->line('Voici votre code de vérification :')
-            ->line('**'.$this->code.'**')
-            ->line("Ce code expire dans {$this->expiresMinutes} minutes.")
-            ->line('Si vous n\'avez pas demandé ce code, ignorez cet email.');
+        return (new OtpCodeMail($this->code, $this->expiresMinutes, $name))
+            ->to($notifiable->routeNotificationForMail());
     }
 }

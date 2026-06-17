@@ -78,12 +78,12 @@ class MediaUrlService
             return $custom;
         }
 
-        $bucket = (string) ($config['bucket'] ?? '');
+        $bucket = (string) ($config['bucket'] ?? env('AWS_BUCKET', ''));
         if ($bucket === '') {
             return '';
         }
 
-        $region = (string) ($config['region'] ?? 'us-east-1');
+        $region = (string) ($config['region'] ?? env('AWS_DEFAULT_REGION', 'us-east-1'));
         $root = trim((string) ($config['root'] ?? ''), '/');
 
         $base = "https://{$bucket}.s3.{$region}.amazonaws.com";

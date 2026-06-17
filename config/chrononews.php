@@ -31,6 +31,14 @@ return [
             'body' => 'Google Sans',
         ],
         'tagline' => 'L\'info qui n\'attend pas',
+        'social' => [
+            'facebook' => env('SOCIAL_FACEBOOK', 'https://web.facebook.com/FinTechMedias'),
+            'twitter' => env('SOCIAL_TWITTER', 'https://twitter.com/fintechmedias'),
+            'instagram' => env('SOCIAL_INSTAGRAM', 'https://instagram.com/fintechmedias'),
+            'linkedin' => env('SOCIAL_LINKEDIN', 'https://www.linkedin.com/in/fintechmedias/'),
+            'youtube' => env('SOCIAL_YOUTUBE', 'https://youtube.com/@FinTechMedias'),
+        ],
+        'contact_email' => env('MAIL_CONTACT_ADDRESS', 'contact@fintechmedias.cd'),
     ],
 
     'article' => [
