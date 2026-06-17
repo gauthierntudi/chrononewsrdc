@@ -57,6 +57,7 @@ Route::get('/og-image.php', [LegacyFrontController::class, 'ogImage']);
 |--------------------------------------------------------------------------
 */
 Route::get('/publication/ajax/get_ad.php', [PublicationAjaxController::class, 'getAd']);
+Route::post('/publication/ajax/track_ad', [PublicationAjaxController::class, 'trackAd']);
 Route::post('/publication/ajax/track_ad.php', [PublicationAjaxController::class, 'trackAd']);
 Route::get('/publication/ajax/live-search.php', [PublicationAjaxController::class, 'liveSearch']);
 

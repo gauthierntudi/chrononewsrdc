@@ -1,55 +1,51 @@
 #!/usr/bin/env bash
-# Lie les assets legacy (racine repo) dans laravel/public pour le front Bopea.
+# Copie les assets front legacy dans laravel/public (fichiers réels pour Git / Laravel Cloud).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-PUBLIC="$ROOT/laravel/public"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LARAVEL_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+MONO_ROOT="$(cd "$LARAVEL_ROOT/.." && pwd)"
+PUBLIC="$LARAVEL_ROOT/public"
 
-cd "$PUBLIC"
-
-for target in img wp-content wp-includes publication; do
-  if [ -e "$ROOT/$target" ]; then
-    ln -sfn "../../$target" "$target"
+copy_file() {
+  local src="$1"
+  local dest="$2"
+  if [ -f "$src" ]; then
+    mkdir -p "$(dirname "$dest")"
+    cp -f "$src" "$dest"
   fi
-done
+}
 
-if [ -d "$ROOT/css" ]; then
-  mkdir -p "$PUBLIC/css"
-  for f in "$ROOT/css"/*; do
-    base="$(basename "$f")"
-    if [ ! -e "$PUBLIC/css/$base" ]; then
-      ln -sfn "../../../css/$base" "$PUBLIC/css/$base"
-    fi
-  done
-fi
+ensure_dir() {
+  local path="$1"
+  if [ -L "$path" ]; then
+    rm -f "$path"
+  fi
+  mkdir -p "$path"
+}
 
-# assets/ racine (video-section.css, etc.) — ne pas écraser laravel/public/assets/img
-mkdir -p "$PUBLIC/assets"
-if [ -d "$ROOT/assets/css" ] && [ ! -e "$PUBLIC/assets/css" ]; then
-  ln -sfn "../../../assets/css" "$PUBLIC/assets/css"
-fi
-if [ -d "$ROOT/assets/js" ] && [ ! -e "$PUBLIC/assets/js" ]; then
-  ln -sfn "../../../assets/js" "$PUBLIC/assets/js"
-fi
+# Monorepo local : sources à la racine CHRONONEWS/
+CSS_SRC="$MONO_ROOT/css/styles-home.css"
+VIDEO_CSS_SRC="$MONO_ROOT/assets/css/video-section.css"
+VIDEO_JS_SRC="$MONO_ROOT/assets/js/video-section.js"
+ELEMENTOR_CHUNK_SRC="$MONO_ROOT/js/shared-frontend-handlers.03caa53373b56d3bab67.bundle.min.js"
 
-# Chunks Webpack Elementor (dummy /js/*.bundle.min.js → public/js/)
-if [ -d "$ROOT/js" ]; then
-  mkdir -p "$PUBLIC/js"
-  for f in "$ROOT/js"/*.bundle.min.js; do
-    [ -f "$f" ] || continue
-    base="$(basename "$f")"
-    ln -sfn "../../../js/$base" "$PUBLIC/js/$base"
-  done
-fi
+# Dépôt laravel/ autonome : les fichiers sont déjà sous public/
+[ -f "$CSS_SRC" ] || CSS_SRC="$PUBLIC/css/styles-home.css"
+[ -f "$VIDEO_CSS_SRC" ] || VIDEO_CSS_SRC="$PUBLIC/assets/css/video-section.css"
+[ -f "$VIDEO_JS_SRC" ] || VIDEO_JS_SRC="$PUBLIC/assets/js/video-section.js"
+[ -f "$ELEMENTOR_CHUNK_SRC" ] || ELEMENTOR_CHUNK_SRC="$PUBLIC/js/shared-frontend-handlers.03caa53373b56d3bab67.bundle.min.js"
 
-# Même chunks dans le dossier Elementor (publicPath = urls.assets + "js/")
-ELEMENTOR_JS="$ROOT/wp-content/plugins/elementor/assets/js"
-if [ -d "$ROOT/js" ] && [ -d "$ELEMENTOR_JS" ]; then
-  for f in "$ROOT/js"/*.bundle.min.js; do
-    [ -f "$f" ] || continue
-    base="$(basename "$f")"
-    ln -sfn "../../../../../js/$base" "$ELEMENTOR_JS/$base"
-  done
-fi
+ensure_dir "$PUBLIC/assets/css"
+ensure_dir "$PUBLIC/assets/js"
+ensure_dir "$PUBLIC/css"
+ensure_dir "$PUBLIC/js"
+ensure_dir "$PUBLIC/wp-content/plugins/elementor/assets/js"
 
-echo "Assets legacy liés dans laravel/public"
+copy_file "$CSS_SRC" "$PUBLIC/css/styles-home.css"
+copy_file "$VIDEO_CSS_SRC" "$PUBLIC/assets/css/video-section.css"
+copy_file "$VIDEO_JS_SRC" "$PUBLIC/assets/js/video-section.js"
+copy_file "$ELEMENTOR_CHUNK_SRC" "$PUBLIC/wp-content/plugins/elementor/assets/js/shared-frontend-handlers.03caa53373b56d3bab67.bundle.min.js"
+copy_file "$ELEMENTOR_CHUNK_SRC" "$PUBLIC/js/shared-frontend-handlers.03caa53373b56d3bab67.bundle.min.js"
+
+echo "Assets front copiés dans laravel/public"
