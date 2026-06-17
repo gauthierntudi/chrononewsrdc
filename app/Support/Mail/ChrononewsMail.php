@@ -2,6 +2,7 @@
 
 namespace App\Support\Mail;
 
+use App\Services\Admin\SocialMediaSettingsService;
 use Illuminate\Support\Facades\View;
 
 final class ChrononewsMail
@@ -39,7 +40,7 @@ final class ChrononewsMail
     /** @return array<string, string> */
     public static function socialLinks(): array
     {
-        return (array) config('chrononews.brand.social', []);
+        return app(SocialMediaSettingsService::class)->urlMap();
     }
 
     /** @return array<string, string> */

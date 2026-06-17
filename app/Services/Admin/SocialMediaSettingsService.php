@@ -109,6 +109,21 @@ class SocialMediaSettingsService
         return $this->mergeWithDefaults($stored);
     }
 
+    /** @return array<string, string> network => url */
+    public function urlMap(): array
+    {
+        $map = [];
+
+        foreach ($this->get() as $network => $row) {
+            $url = trim((string) ($row['url'] ?? ''));
+            if ($url !== '') {
+                $map[$network] = $url;
+            }
+        }
+
+        return $map;
+    }
+
     /** @param  array<string, array<string, mixed>>  $payload */
     public function update(array $payload): void
     {
