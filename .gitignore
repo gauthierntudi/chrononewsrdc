@@ -44,5 +44,9 @@ Thumbs.db
 /database/*.sqlite
 /database/*.sqlite-journal
 
+# Dumps SQL locaux (ne pas versionner)
+chrononews-export.sql
+*.export.sql
+
 # Uploads locaux (prod = S3)
 /publication/uploads/

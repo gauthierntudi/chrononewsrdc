@@ -1,1 +1,243 @@
-../../../css/category-animations.css
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.jl_ache_head {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.jl_clist_layout {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.jl_clist_layout:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.jl_clist_layout:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.jl_clist_layout:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.jl_clist_layout:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.jl_clist_layout .jl_imgw {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.jl_clist_layout:hover .jl_imgw {
+    transform: translateY(-5px);
+}
+
+.jl_clist_layout .jl_imgw img {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jl_clist_layout:hover .jl_imgw img {
+    transform: scale(1.08);
+}
+
+.jl_fe_title a {
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.jl_fe_title a::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 0;
+    height: 0px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.jl_clist_layout:hover .jl_fe_title a::after {
+    width: 100%;
+}
+
+.jl_f_cat a {
+    transition: all 0.3s ease;
+}
+
+.jl_clist_layout:hover .jl_f_cat a {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+
+.jl_sidebar_w > div {
+    animation: fadeIn 1s ease-out;
+}
+
+.jl_sh_cter li {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jl_sh_cter li:nth-child(1) { animation-delay: 0.1s; }
+.jl_sh_cter li:nth-child(2) { animation-delay: 0.15s; }
+.jl_sh_cter li:nth-child(3) { animation-delay: 0.2s; }
+.jl_sh_cter li:nth-child(4) { animation-delay: 0.25s; }
+.jl_sh_cter li:nth-child(5) { animation-delay: 0.3s; }
+.jl_sh_cter li:nth-child(6) { animation-delay: 0.35s; }
+
+.jl_sh_cter li:hover {
+    transform: translateX(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0);
+}
+
+.jl_cgrid_layout {
+    opacity: 0;
+    animation: scaleIn 0.7s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.jl_cgrid_layout:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.jl_cgrid_layout:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.jl_cgrid_layout:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0);
+}
+
+.jl_cgrid_layout .jl_imgw img {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
+}
+
+.jl_cgrid_layout:hover .jl_imgw img {
+    transform: scale(1.1);
+    filter: brightness(1.05);
+}
+
+.jl_breadcrumbs {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.jl_breadcrumbs .jl_item_bread {
+    transition: color 0.3s ease;
+}
+
+.jl_breadcrumbs .jl_item_bread:hover a {
+    color: var(--jl-main-color, #09b611);
+}
+
+.container-donut {
+    transition: transform 0.4s ease;
+}
+
+.jl_cgrid_layout:hover .container-donut {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.jl_post_meta span {
+    transition: color 0.3s ease;
+}
+
+.jl_clist_layout:hover .jl_post_meta a,
+.jl_cgrid_layout:hover .jl_post_meta a {
+    color: var(--jl-main-color, #09b611);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#go-top {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#go-top:hover {
+    transform: translateY(-5px);
+}
+
+#go-top:active {
+    transform: translateY(-2px);
+}
+
+.jl_fe_des {
+    transition: color 0.3s ease;
+}
+
+.jl_clist_layout:hover .jl_fe_des,
+.jl_cgrid_layout:hover .jl_fe_des {
+    color: #555;
+}
+
+.jl_pc_sec_h {
+    animation: fadeInUp 0.8s ease-out;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.post_subtitle_text {
+    animation: fadeInUp 0.8s ease-out;
+    animation-delay: 0.3s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.jl_auth_numw {
+    animation: scaleIn 0.8s ease-out;
+    animation-delay: 0.4s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
