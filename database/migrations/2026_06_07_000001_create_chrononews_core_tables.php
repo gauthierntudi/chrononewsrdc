@@ -36,9 +36,9 @@ return new class extends Migration
                 $table->timestamp('published_at')->nullable();
                 $table->timestamps();
 
-                $table->index(['is_published', 'validation_status', 'payment_status']);
-                $table->index(['category', 'published_at']);
-                $table->index('is_featured');
+                $table->index(['is_published', 'validation_status', 'payment_status'], 'articles_status_lookup_idx');
+                $table->index(['category', 'published_at'], 'articles_category_published_idx');
+                $table->index('is_featured', 'articles_featured_idx');
             });
         }
 
@@ -107,7 +107,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('clicks')->default(0);
                 $table->timestamps();
 
-                $table->index(['broadcast_status', 'validation_status', 'payment_status']);
+                $table->index(['broadcast_status', 'validation_status', 'payment_status'], 'ads_status_lookup_idx');
             });
         }
 
@@ -139,7 +139,7 @@ return new class extends Migration
                 $table->string('status', 20)->default('active');
                 $table->timestamps();
 
-                $table->index(['user_id', 'status', 'ends_at']);
+                $table->index(['user_id', 'status', 'ends_at'], 'user_subs_active_lookup_idx');
             });
         }
 
