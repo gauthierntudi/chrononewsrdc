@@ -32,33 +32,37 @@ if ($avoidDuplicatesHeader && !empty($excludeHomeIds)) {
     $whereNotIn = " AND a.id NOT IN (" . implode(',', $ph) . ") ";
 }
 
-// 1 requête préparée réutilisée pour les 4 catégories
-$sqlHeaderOneCat = "
-SELECT a.*, u.nom AS auteur_nom
-FROM actualites a
-LEFT JOIN users u ON u.id = a.id_redaction
-WHERE a.status = 1
-  AND a.statut_validation = 'valide'
-  AND a.statut_paiement IN ('paye','gratuit')
-  AND TRIM(a.categorie) = :cat
-  $whereNotIn
-ORDER BY COALESCE(a.date_add, a.created_at) DESC
-LIMIT $perCat
-";
-
-$stmt = $db->prepare($sqlHeaderOneCat);
-
 // init
 $headerPosts = [];
-foreach ($headerCats as $c) $headerPosts[$c] = [];
+foreach ($headerCats as $c) {
+    $headerPosts[$c] = [];
+}
 
-foreach ($headerCats as $cat) {
-    $params = array_merge([':cat' => $cat], $notInParams);
-    $stmt->execute($params);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (legacy_front_schema_ready($db)) {
+    // 1 requête préparée réutilisée pour les 4 catégories
+    $sqlHeaderOneCat = "
+    SELECT a.*, u.nom AS auteur_nom
+    FROM actualites a
+    LEFT JOIN users u ON u.id = a.id_redaction
+    WHERE a.status = 1
+      AND a.statut_validation = 'valide'
+      AND a.statut_paiement IN ('paye','gratuit')
+      AND TRIM(a.categorie) = :cat
+      $whereNotIn
+    ORDER BY COALESCE(a.date_add, a.created_at) DESC
+    LIMIT $perCat
+    ";
 
-    // fallback: si pas assez d'articles, on répète sans laisser de vide
-    $headerPosts[$cat] = fill_repeat($rows, $perCat);
+    $stmt = $db->prepare($sqlHeaderOneCat);
+
+    foreach ($headerCats as $cat) {
+        $params = array_merge([':cat' => $cat], $notInParams);
+        $stmt->execute($params);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // fallback: si pas assez d'articles, on répète sans laisser de vide
+        $headerPosts[$cat] = fill_repeat($rows, $perCat);
+    }
 }
 
 // --- LOGIC FOR DYNAMIC MENU ---

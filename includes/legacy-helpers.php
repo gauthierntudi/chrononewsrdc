@@ -4,6 +4,39 @@ declare(strict_types=1);
 
 require_once __DIR__.'/media-url.php';
 
+if (! function_exists('legacy_front_schema_ready')) {
+    /**
+     * Le front legacy interroge `actualites` / `publicites`.
+     * Sur une base vide (migrations Laravel seules), ces tables n'existent pas.
+     */
+    function legacy_front_schema_ready(?PDO $connection = null): bool
+    {
+        static $ready = null;
+
+        if ($ready !== null) {
+            return $ready;
+        }
+
+        global $db;
+        $pdo = $connection ?? ($db ?? null);
+
+        if (! $pdo instanceof PDO) {
+            $ready = false;
+
+            return $ready;
+        }
+
+        try {
+            $pdo->query('SELECT 1 FROM actualites LIMIT 1');
+            $ready = true;
+        } catch (Throwable) {
+            $ready = false;
+        }
+
+        return $ready;
+    }
+}
+
 if (! function_exists('clean_title')) {
     function clean_title(?string $title): string
     {

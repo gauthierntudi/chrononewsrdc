@@ -5,6 +5,35 @@ declare(strict_types=1);
 /** @var PDO $db Fourni par LegacyInclude */
 $excludeHomeIds = $excludeHomeIds ?? [];
 
+if (! legacy_front_schema_ready($db)) {
+    $homeHero = null;
+    $homeHeroId = null;
+    $homeSmalls = [];
+    $topSmallId = null;
+    $maxVues = 0;
+    $forYouBig = null;
+    $forYouSmalls = [];
+    $ActualitésPosts = [];
+    $maxVuesActualités = 1000;
+    $lic1Big = null;
+    $lic1Smalls = [];
+    $lic2Big = null;
+    $lic2Smalls = [];
+    $mustRows = [];
+    $ecoBig = null;
+    $ecoSmalls = [];
+    $invBig = null;
+    $invSmalls = [];
+    $energyPosts = [];
+    $cultureBig = null;
+    $cultureSmalls = [];
+    $mvBig = null;
+    $mvSmalls = [];
+    $adTop = null;
+
+    return;
+}
+
 /** 1) Grand article à la une **/
 $sqlHero = "
 SELECT a.*, u.nom AS auteur_nom

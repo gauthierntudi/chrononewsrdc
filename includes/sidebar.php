@@ -26,7 +26,7 @@ if (($_SESSION['week_top10_key'] ?? null) !== $weekKey) {
 }
 
 // 1) construire la liste top10 si vide
-if (empty($_SESSION['week_top10_ids'])) {
+if (legacy_front_schema_ready($db) && empty($_SESSION['week_top10_ids'])) {
 
     $sqlTop10 = "
     SELECT a.id
