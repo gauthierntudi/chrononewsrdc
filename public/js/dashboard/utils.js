@@ -273,7 +273,7 @@
                 'International': 'color-8',
                 'Sport': 'color-9',
                 'Interviews': 'color-10',
-                'Opinions': 'color-11',
+                'Décryptage': 'color-11',
             };
             return map[normalized] || '';
         },

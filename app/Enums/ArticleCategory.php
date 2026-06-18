@@ -14,7 +14,7 @@ enum ArticleCategory: string
     case International = 'International';
     case Sport = 'Sport';
     case Interviews = 'Interviews';
-    case Opinions = 'Opinions';
+    case Decryptage = 'Décryptage';
 
     public function color(): string
     {
@@ -29,7 +29,7 @@ enum ArticleCategory: string
             self::International => '#0457d3',
             self::Sport => '#059669',
             self::Interviews => '#2b3a6c',
-            self::Opinions => '#626a6b',
+            self::Decryptage => '#626a6b',
         };
     }
 

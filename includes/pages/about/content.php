@@ -35,12 +35,12 @@
     </p>
     
     <p>
-        Nous couvrons les faits qui comptent, au quotidien, pour un public exigeant et curieux. Analyses, reportages, interviews et opinions viennent compléter notre fil d’actualité afin de donner du contexte et de la profondeur à l’information.
+        Nous couvrons les faits qui comptent, au quotidien, pour un public exigeant et curieux. Analyses, reportages, interviews et décryptages viennent compléter notre fil d’actualité afin de donner du contexte et de la profondeur à l’information.
     </p>
 
     <h3>Nos rubriques</h3>
     <p>
-        Actualités, Institutions, Politique, Économie, Justice &amp; Sécurité, Développement &amp; Infrastructures, Société, International, Sport, Interviews et Opinions : Chrono News structure son offre éditoriale pour vous permettre de suivre l’essentiel, rubrique par rubrique.
+        Actualités, Institutions, Politique, Économie, Justice &amp; Sécurité, Développement &amp; Infrastructures, Société, International, Sport, Interviews et Décryptage : Chrono News structure son offre éditoriale pour vous permettre de suivre l’essentiel, rubrique par rubrique.
     </p>
     
     <h3>Notre vision</h3>

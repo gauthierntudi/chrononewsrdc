@@ -17,7 +17,7 @@ if (! function_exists('chrononews_categories')) {
             'International',
             'Sport',
             'Interviews',
-            'Opinions',
+            'Décryptage',
         ];
     }
 }
@@ -37,8 +37,21 @@ if (! function_exists('chrononews_category_colors')) {
             'International' => '#0457d3',
             'Sport' => '#059669',
             'Interviews' => '#2b3a6c',
-            'Opinions' => '#626a6b',
+            'Décryptage' => '#626a6b',
         ];
+    }
+}
+
+if (! function_exists('category_normalize')) {
+    /** Ancien libellé « Opinions » → « Décryptage ». */
+    function category_normalize(?string $cat): string
+    {
+        $cat = trim((string) $cat);
+
+        return match ($cat) {
+            'Opinions', 'Opinion' => 'Décryptage',
+            default => $cat,
+        };
     }
 }
 
@@ -47,7 +60,7 @@ if (! function_exists('category_color')) {
     {
         $map = chrononews_category_colors();
 
-        return $map[trim((string) $cat)] ?? '#d11810';
+        return $map[category_normalize($cat)] ?? '#d11810';
     }
 }
 
@@ -67,7 +80,7 @@ if (! function_exists('chrononews_category_slugs')) {
             'International' => 'international',
             'Sport' => 'sport',
             'Interviews' => 'interviews',
-            'Opinions' => 'opinions',
+            'Décryptage' => 'decryptage',
         ];
     }
 }
@@ -77,7 +90,7 @@ if (! function_exists('category_slug')) {
     {
         $map = chrononews_category_slugs();
 
-        return $map[trim($cat)] ?? slugify($cat, 'actualites');
+        return $map[category_normalize($cat)] ?? slugify($cat, 'actualites');
     }
 }
 
@@ -95,8 +108,12 @@ if (! function_exists('category_from_slug')) {
             return $bySlug[$segment];
         }
 
+        if ($segment === 'opinions') {
+            return 'Décryptage';
+        }
+
         foreach (chrononews_categories() as $name) {
-            if ($name === $segment) {
+            if ($name === $segment || category_normalize($segment) === $name) {
                 return $name;
             }
         }
@@ -143,7 +160,7 @@ if (! function_exists('chrononews_category_descriptions')) {
             'International' => 'Actualité internationale et relations extérieures.',
             'Sport' => 'Résultats, compétitions et actualité sportive.',
             'Interviews' => 'Entretiens exclusifs avec les acteurs de l\'actualité.',
-            'Opinions' => 'Chroniques, tribunes et points de vue.',
+            'Décryptage' => 'Analyses approfondies et décryptages de l\'actualité.',
         ];
     }
 }
@@ -151,6 +168,6 @@ if (! function_exists('chrononews_category_descriptions')) {
 if (! function_exists('category_description')) {
     function category_description(string $cat): string
     {
-        return chrononews_category_descriptions()[trim($cat)] ?? '';
+        return chrononews_category_descriptions()[category_normalize($cat)] ?? '';
     }
 }

@@ -13,7 +13,7 @@ final class Categories
         return config('chrononews.article.categories', [
             'Actualités', 'Institutions', 'Politique', 'Économie',
             'Justice & Sécurité', 'Développement & Infrastructures',
-            'Société', 'International', 'Sport', 'Interviews', 'Opinions',
+            'Société', 'International', 'Sport', 'Interviews', 'Décryptage',
         ]);
     }
 
@@ -39,15 +39,8 @@ final class Categories
             'International' => 'international',
             'Sport' => 'sport',
             'Interviews' => 'interviews',
-            'Opinions' => 'opinions',
+            'Décryptage' => 'decryptage',
         ];
-    }
-
-    public static function slug(string $category): string
-    {
-        $map = self::slugs();
-
-        return $map[trim($category)] ?? \Illuminate\Support\Str::slug($category, '-', 'fr') ?: 'actualites';
     }
 
     public static function fromSlug(string $segment): ?string
@@ -62,8 +55,12 @@ final class Categories
             return $bySlug[$segment];
         }
 
+        if ($segment === 'opinions') {
+            return 'Décryptage';
+        }
+
         foreach (self::all() as $name) {
-            if ($name === $segment) {
+            if ($name === $segment || self::normalize($segment) === $name) {
                 return $name;
             }
         }
@@ -71,8 +68,19 @@ final class Categories
         return null;
     }
 
+    public static function normalize(?string $category): string
+    {
+        $category = trim((string) $category);
+
+        return match ($category) {
+            'Opinions', 'Opinion' => 'Décryptage',
+            default => $category,
+        };
+    }
+
     public static function color(?string $category): string
     {
+        $category = self::normalize($category);
         $map = [
             'Actualités' => '#d11810',
             'Institutions' => '#1E5EFF',
@@ -84,10 +92,17 @@ final class Categories
             'International' => '#0457d3',
             'Sport' => '#059669',
             'Interviews' => '#2b3a6c',
-            'Opinions' => '#626a6b',
+            'Décryptage' => '#626a6b',
         ];
 
-        return $map[trim((string) $category)] ?? '#d11810';
+        return $map[$category] ?? '#d11810';
+    }
+
+    public static function slug(string $category): string
+    {
+        $map = self::slugs();
+
+        return $map[self::normalize($category)] ?? \Illuminate\Support\Str::slug($category, '-', 'fr') ?: 'actualites';
     }
 
     public static function url(string $category): string
@@ -97,7 +112,7 @@ final class Categories
 
     public static function isValid(?string $category): bool
     {
-        return in_array(trim((string) $category), self::all(), true);
+        return in_array(self::normalize($category), self::all(), true);
     }
 
     /** @return array<string, string> */
@@ -114,7 +129,7 @@ final class Categories
             'International' => 'Actualité internationale et relations extérieures.',
             'Sport' => 'Sport et compétitions.',
             'Interviews' => 'Entretiens et portraits.',
-            'Opinions' => 'Chroniques et points de vue.',
+            'Décryptage' => 'Analyses approfondies et décryptages de l\'actualité.',
         ];
     }
 }
