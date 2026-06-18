@@ -94,3 +94,40 @@ function cn_og_image(): string
 {
     return CN_SITE_URL.CN_FAVICON;
 }
+
+function cn_config_string(string $key, string $default): string
+{
+    if (! function_exists('config')) {
+        return $default;
+    }
+
+    try {
+        $value = config($key, $default);
+
+        return is_string($value) || is_numeric($value) ? (string) $value : $default;
+    } catch (Throwable) {
+        return $default;
+    }
+}
+
+function cn_contact_phone(): string
+{
+    return cn_config_string('chrononews.contact.phone', '+243 995 801 328');
+}
+
+function cn_contact_whatsapp(): string
+{
+    $whatsapp = cn_config_string('chrononews.contact.whatsapp', '');
+
+    return $whatsapp !== '' ? $whatsapp : cn_contact_phone();
+}
+
+function cn_contact_email(): string
+{
+    return cn_config_string('chrononews.contact.email', 'contact@fintechmedias.cd');
+}
+
+function cn_contact_address(): string
+{
+    return cn_config_string('chrononews.contact.address', 'Kinshasa, RDC');
+}

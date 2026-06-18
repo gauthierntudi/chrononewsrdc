@@ -49,8 +49,18 @@
                         </p>
                         @endif
                         <p style="margin:0 0 12px;color:rgba(255,255,255,0.72);font-size:11px;line-height:1.5;">
-                            Nouvelle Galerie Présidentielle, Premier niveau, local 1M3-B<br>
-                            Kinshasa — RD Congo
+                            @if($contactPhone)
+                                Tél. : {{ $contactPhone }}<br>
+                            @endif
+                            @if($contactWhatsapp)
+                                WhatsApp : {{ $contactWhatsapp }}<br>
+                            @endif
+                            @if($contactEmail)
+                                <a href="mailto:{{ $contactEmail }}" style="color:{{ $colorWhite }};text-decoration:none;">{{ $contactEmail }}</a><br>
+                            @endif
+                            @if($contactAddress)
+                                {{ $contactAddress }}
+                            @endif
                         </p>
                         <p style="margin:0 0 12px;font-size:11px;line-height:1.6;">
                             @foreach($footerLinks as $label => $url)

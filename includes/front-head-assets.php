@@ -350,6 +350,7 @@ $frontExtraStylesheets = $frontExtraStylesheets ?? [];
       <link rel="stylesheet" id="bopea_layout-css" href="/wp-content/themes/bopea/css/layout.css" media="all" />
       <link rel="stylesheet" id="bopea_style-css" href="/wp-content/themes/bopea/style.css" media="all" />
       <link rel="stylesheet" id="bopea_style-inline-css" href="<?= htmlspecialchars($frontStylesheet, ENT_QUOTES, 'UTF-8') ?>" media="all" />
+      <link rel="stylesheet" id="chrononews-drop-cap-css" href="/css/chrononews-drop-cap.css" media="all" />
 <?php foreach ($frontExtraStylesheets as $extraStylesheet): ?>
       <link rel="stylesheet" href="<?= htmlspecialchars($extraStylesheet, ENT_QUOTES, 'UTF-8') ?>" media="all" />
 <?php endforeach; ?>

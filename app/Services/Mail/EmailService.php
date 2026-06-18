@@ -35,7 +35,7 @@ class EmailService
     public function sendContactEmail(string $nom, string $email, string $sujet, string $message): bool
     {
         $siteName = ChrononewsMail::siteName();
-        $to = (string) config('chrononews.brand.contact_email', 'contact@fintechmedias.cd');
+        $to = (string) config('chrononews.contact.email', 'contact@fintechmedias.cd');
 
         $html = ChrononewsMail::render('emails.contact', [
             'subject' => "Contact — {$siteName}",

@@ -1,0 +1,32 @@
+/**
+ * Lettrine — corrige p.has-drop-cap du thème Bopea (97px inline sans float).
+ */
+.post_content.jl_content p.has-drop-cap,
+.jl_content p.has-drop-cap,
+.content_single_page p.has-drop-cap {
+    margin-top: 0;
+}
+
+.post_content.jl_content p.has-drop-cap:not(:focus)::first-letter,
+.jl_content p.has-drop-cap:not(:focus)::first-letter,
+.content_single_page p.has-drop-cap:not(:focus)::first-letter {
+    float: left;
+    font-family: var(--jl-title-font, inherit);
+    font-weight: var(--jl-title-font-weight, 700);
+    font-size: 4.25em;
+    line-height: 0.72;
+    margin: 0.06em 0.14em 0 0;
+    padding: 0;
+    color: var(--jl-main-color, #d11810);
+    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 768px) {
+    .post_content.jl_content p.has-drop-cap:not(:focus)::first-letter,
+    .jl_content p.has-drop-cap:not(:focus)::first-letter,
+    .content_single_page p.has-drop-cap:not(:focus)::first-letter {
+        font-size: 3.25em;
+        line-height: 0.78;
+        margin-right: 0.1em;
+    }
+}

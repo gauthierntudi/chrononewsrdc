@@ -115,15 +115,19 @@
                                 <div style="margin-top: 20px;">
                                     <p style="margin-bottom: 15px;">
                                         <strong><i class="jli-envelope" style="margin-right: 8px;"></i> E-mail :</strong> <br>
-                                        contact@chrononews.web
+                                        <?= htmlspecialchars(cn_contact_email(), ENT_QUOTES, 'UTF-8') ?>
                                     </p>
                                     <p style="margin-bottom: 15px;">
                                         <strong><i class="jli-map-marker" style="margin-right: 8px;"></i> Adresse :</strong> <br>
-                                        Kinshasa, RDC
+                                        <?= htmlspecialchars(cn_contact_address(), ENT_QUOTES, 'UTF-8') ?>
                                     </p>
                                     <p style="margin-bottom: 15px;">
                                         <strong><i class="jli-phone" style="margin-right: 8px;"></i> Téléphone :</strong> <br>
-                                        +243 995 801 328
+                                        <?= htmlspecialchars(cn_contact_phone(), ENT_QUOTES, 'UTF-8') ?>
+                                    </p>
+                                    <p style="margin-bottom: 15px;">
+                                        <strong><i class="jli-whatsapp" style="margin-right: 8px;"></i> WhatsApp :</strong> <br>
+                                        <?= htmlspecialchars(cn_contact_whatsapp(), ENT_QUOTES, 'UTF-8') ?>
                                     </p>
                                 </div>
 

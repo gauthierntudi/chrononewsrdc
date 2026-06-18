@@ -38,7 +38,14 @@ return [
             'linkedin' => env('SOCIAL_LINKEDIN', 'https://www.linkedin.com/in/fintechmedias/'),
             'youtube' => env('SOCIAL_YOUTUBE', 'https://youtube.com/@FinTechMedias'),
         ],
-        'contact_email' => env('MAIL_CONTACT_ADDRESS', 'contact@fintechmedias.cd'),
+        'contact_email' => env('SITE_CONTACT_EMAIL', env('MAIL_CONTACT_ADDRESS', 'contact@fintechmedias.cd')),
+    ],
+
+    'contact' => [
+        'phone' => env('SITE_CONTACT_PHONE', '+243 995 801 328'),
+        'whatsapp' => env('SITE_CONTACT_WHATSAPP') ?: env('SITE_CONTACT_PHONE', '+243 995 801 328'),
+        'email' => env('SITE_CONTACT_EMAIL', env('MAIL_CONTACT_ADDRESS', 'contact@fintechmedias.cd')),
+        'address' => env('SITE_CONTACT_ADDRESS', 'Kinshasa, RDC'),
     ],
 
     'article' => [

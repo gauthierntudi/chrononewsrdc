@@ -87,13 +87,13 @@ if ($avoidDuplicatesFooter && function_exists('add_exclude_ids')) {
 				   <div class="elementor-widget-container">
 					   <div class="jlc-ctw">
                      <p class="jl-cust">
-                        tel : +243 995 801 328                
+                        tel : <?= htmlspecialchars(cn_contact_phone(), ENT_QUOTES, 'UTF-8') ?>
                      </p>
                      <p class="jl-cust">
-                        WhatsApp : +243 995 801 328              
+                        WhatsApp : <?= htmlspecialchars(cn_contact_whatsapp(), ENT_QUOTES, 'UTF-8') ?>
                      </p>
                      <p class="jl-cust">
-                        Email : contact@fintechmedias.cd              
+                        Email : <?= htmlspecialchars(cn_contact_email(), ENT_QUOTES, 'UTF-8') ?>
                      </p>
                   </div>
         			</div>

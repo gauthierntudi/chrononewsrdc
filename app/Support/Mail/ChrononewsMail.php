@@ -37,6 +37,26 @@ final class ChrononewsMail
         return self::asset((string) config('chrononews.brand.assets.logo_front_dark', 'assets/img/logo-front-02.png'));
     }
 
+    public static function contactEmail(): string
+    {
+        return (string) config('chrononews.contact.email', 'contact@fintechmedias.cd');
+    }
+
+    public static function contactPhone(): string
+    {
+        return (string) config('chrononews.contact.phone', '+243 995 801 328');
+    }
+
+    public static function contactWhatsapp(): string
+    {
+        return (string) config('chrononews.contact.whatsapp', self::contactPhone());
+    }
+
+    public static function contactAddress(): string
+    {
+        return (string) config('chrononews.contact.address', 'Kinshasa, RDC');
+    }
+
     /** @return array<string, string> */
     public static function socialLinks(): array
     {
@@ -107,6 +127,10 @@ final class ChrononewsMail
             'colorBlue' => self::color('blue'),
             'socialLinks' => self::socialLinks(),
             'footerLinks' => self::footerLinks(),
+            'contactEmail' => self::contactEmail(),
+            'contactPhone' => self::contactPhone(),
+            'contactWhatsapp' => self::contactWhatsapp(),
+            'contactAddress' => self::contactAddress(),
             'year' => date('Y'),
         ];
     }
