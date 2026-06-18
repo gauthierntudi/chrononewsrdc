@@ -34,6 +34,12 @@ final class ChrononewsMail
 
     public static function logoUrl(): string
     {
+        $emailLogo = config('chrononews.brand.assets.logo_email');
+
+        if (is_string($emailLogo) && $emailLogo !== '') {
+            return $emailLogo;
+        }
+
         return self::asset((string) config('chrononews.brand.assets.logo_front_dark', 'assets/img/logo-front-02.png'));
     }
 

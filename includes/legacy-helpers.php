@@ -339,3 +339,38 @@ if (! function_exists('cn_article_page_url')) {
         return '/article/'.$articleId.'/'.$slug;
     }
 }
+
+if (! function_exists('cn_breaking_news_enabled')) {
+    function cn_breaking_news_enabled(?PDO $pdo = null): bool
+    {
+        static $enabled = null;
+
+        if ($enabled !== null) {
+            return $enabled;
+        }
+
+        global $db;
+        $pdo = $pdo ?? ($db ?? null);
+        $enabled = true;
+
+        if (! $pdo instanceof PDO) {
+            return $enabled;
+        }
+
+        try {
+            $stmt = $pdo->prepare('SELECT setting_value FROM global_settings WHERE setting_key = :key LIMIT 1');
+            $stmt->execute(['key' => 'breaking_news_enabled']);
+            $raw = $stmt->fetchColumn();
+
+            if ($raw === false || $raw === null || $raw === '') {
+                return $enabled;
+            }
+
+            $enabled = ! in_array(strtolower((string) $raw), ['0', 'false', 'off', 'no'], true);
+        } catch (Throwable) {
+            $enabled = true;
+        }
+
+        return $enabled;
+    }
+}

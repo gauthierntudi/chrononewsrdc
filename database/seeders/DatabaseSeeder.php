@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         );
 
         Setting::setValue('default_article_price', (string) config('chrononews.article.default_price'));
+        Setting::setValue('breaking_news_enabled', '1');
         Setting::setValue('site_categories', json_encode(ArticleCategory::values()));
         Setting::setValue(
             'social_media',

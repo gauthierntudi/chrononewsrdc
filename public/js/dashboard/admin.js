@@ -3486,6 +3486,9 @@
             const settingsData = await U.api(`${cfg.apiBase}/admin/settings`);
             const settings = settingsData.settings || {};
             const defaultPrice = settings.default_article_price ?? '0.00';
+            const breakingNewsEnabled = !['0', 'false', 'off', 'no'].includes(
+                String(settings.breaking_news_enabled ?? '1').toLowerCase(),
+            );
             const plans = settingsData.subscription_plans || [];
             const socialMedia = settingsData.social_media || {};
             const socialCatalog = settingsData.social_media_catalog || {};
@@ -3521,6 +3524,31 @@
                             </button>
                         ` : `<p class="settings-readonly-hint">${U.icon('lock')} Modification réservée aux super administrateurs.</p>`}
                     </form>
+                </section>
+
+                <section class="settings-card">
+                    <div class="settings-card__head">
+                        <div class="settings-card__icon settings-card__icon--red">${U.icon('radio')}</div>
+                        <div>
+                            <h3>Affichage du site</h3>
+                            <p>Éléments visibles sur le front public.</p>
+                        </div>
+                    </div>
+                    <label class="toggle-switch settings-feature-toggle" for="breakingNewsEnabled">
+                        <span class="settings-feature-toggle__copy">
+                            <span class="toggle-text">Bandeau Breaking News</span>
+                            <span class="settings-feature-toggle__hint">Affiche sous le menu les derniers titres d'articles en défilement.</span>
+                        </span>
+                        <input
+                            type="checkbox"
+                            id="breakingNewsEnabled"
+                            name="breaking_news_enabled"
+                            ${breakingNewsEnabled ? 'checked' : ''}
+                            ${canEdit ? '' : 'disabled'}
+                        >
+                        <span class="toggle-slider" aria-hidden="true"></span>
+                    </label>
+                    ${canEdit ? '' : `<p class="settings-readonly-hint">${U.icon('lock')} Modification réservée aux super administrateurs.</p>`}
                 </section>
 
                 <section class="settings-card">
@@ -3566,12 +3594,37 @@
 
             bindSubscriptionPlanActions(container);
             bindSocialMediaActions(container);
+            bindBreakingNewsToggle(container, canEdit);
             U.refreshIcons(container);
             markViewLoaded('settings');
         } catch (error) {
             container.innerHTML = `<div class="empty-state">${U.icon('circle-alert')}<p>${U.escapeHtml(error.message)}</p></div>`;
             U.refreshIcons(container);
         }
+    }
+
+    function bindBreakingNewsToggle(container, canEdit) {
+        const input = container.querySelector('#breakingNewsEnabled');
+        if (!input || !canEdit) return;
+
+        input.addEventListener('change', async () => {
+            const enabled = input.checked;
+            const previous = !enabled;
+
+            try {
+                U.showLoader('Enregistrement…');
+                const data = await U.api(`${cfg.apiBase}/admin/settings`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ breaking_news_enabled: enabled }),
+                });
+                U.hideLoader();
+                U.showToast(data.message || 'Paramètre enregistré', 'success');
+            } catch (error) {
+                input.checked = previous;
+                U.hideLoader();
+                U.showToast(error.message, 'error');
+            }
+        });
     }
 
     function bindSocialMediaActions(container) {

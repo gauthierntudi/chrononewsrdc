@@ -44,6 +44,24 @@ class AdminSettingController extends Controller
             ]);
         }
 
+        if ($request->has('breaking_news_enabled')) {
+            $data = $request->validate([
+                'breaking_news_enabled' => ['required', 'boolean'],
+            ]);
+
+            Setting::setValue(
+                'breaking_news_enabled',
+                $data['breaking_news_enabled'] ? '1' : '0',
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => $data['breaking_news_enabled']
+                    ? 'Bandeau Breaking News activé'
+                    : 'Bandeau Breaking News désactivé',
+            ]);
+        }
+
         if ($request->has('social_media')) {
             $data = $request->validate([
                 'social_media' => ['required', 'array'],

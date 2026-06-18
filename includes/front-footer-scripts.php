@@ -10,6 +10,7 @@
 <script src="/wp-includes/js/dist/hooks.min.js" id="wp-hooks-js"></script>
 
 <script src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js" id="swiper-js"></script>
+<script src="/js/breaking-news.js" id="chrononews-breaking-news-js" defer></script>
 <script src="/wp-content/themes/bopea/js/jquery.waypoints.min.js" id="waypoints-js"></script>
 <script src="/wp-content/themes/bopea/js/cookie.min.js" id="cookie-js"></script>
 <script src="/wp-content/themes/bopea/js/lazysizes.min.js" id="lazysizes-js"></script>

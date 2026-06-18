@@ -15,6 +15,10 @@ return [
             'favicon' => 'assets/img/icon-chono-news.jpg',
             'logo' => 'assets/img/logo-01.png',
             'logo_admin' => 'assets/img/logo-front-on-black.png',
+            'logo_email' => env(
+                'SITE_EMAIL_LOGO_URL',
+                'https://mypullzond243.b-cdn.net/chrononews/images/logo-front-on-black.png',
+            ),
             'logo_front_light' => 'assets/img/logo-front.png',
             'logo_front_dark' => 'assets/img/logo-front-02.png',
         ],
