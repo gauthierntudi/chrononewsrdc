@@ -26,7 +26,9 @@ class ArticlePolicy
 
     public function update(User $user, Article $article): bool
     {
-        return $user->isSuperAdmin() || $article->user_id === $user->id;
+        return $user->isSuperAdmin()
+            || $user->isAdmin()
+            || $article->user_id === $user->id;
     }
 
     public function delete(User $user, Article $article): bool

@@ -61,7 +61,10 @@
 
             <div class="publisher-form-group">
                 <label for="articlePublishDate">Date de publication *</label>
-                <input type="text" id="articlePublishDate" placeholder="Sélectionner la date et l'heure" required>
+                <div class="publisher-date-field">
+                    <input type="text" id="articlePublishDate" class="publisher-date-input" data-input placeholder="Sélectionner la date et l'heure" required readonly>
+                    <i data-lucide="calendar" class="lucide-icon publisher-date-icon" aria-hidden="true"></i>
+                </div>
             </div>
 
             <div class="publisher-form-group form-grid-full">

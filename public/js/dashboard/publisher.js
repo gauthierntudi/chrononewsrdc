@@ -34,16 +34,22 @@
     });
 
     function initDatePicker() {
+        const field = document.querySelector('.publisher-date-field');
         const input = document.getElementById('articlePublishDate');
-        if (!input || typeof flatpickr === 'undefined') return;
+        if (!field || !input || typeof flatpickr === 'undefined') return;
 
-        publishDatePicker = flatpickr(input, {
+        publishDatePicker = flatpickr(field, {
             enableTime: true,
             time_24hr: true,
             dateFormat: 'Y-m-d H:i',
-            locale: 'fr',
+            altInput: true,
+            altFormat: 'j F Y à H:i',
+            locale: flatpickr.l10ns?.fr || 'fr',
+            defaultDate: new Date(),
             minuteIncrement: 1,
-            allowInput: true,
+            clickOpens: true,
+            allowInput: false,
+            wrap: true,
         });
     }
 
@@ -91,7 +97,7 @@
     function bindEvents() {
         document.getElementById('publisherBackBtn')?.addEventListener('click', goBack);
         document.getElementById('publisherSaveBtn')?.addEventListener('click', saveArticle);
-        document.getElementById('addBlockBtn')?.addEventListener('click', showBlockEditor);
+        document.getElementById('addBlockBtn')?.addEventListener('click', () => showBlockEditor());
         document.getElementById('cancelBlockBtn')?.addEventListener('click', cancelBlockEdit);
         document.getElementById('saveBlockBtn')?.addEventListener('click', saveBlock);
         document.getElementById('articleIsPaid')?.addEventListener('change', togglePriceField);
@@ -110,12 +116,56 @@
             if (files.length) handleCoverSelect(files);
         });
 
+        const coverPreview = document.getElementById('coverPreview');
+        coverPreview?.addEventListener('click', (e) => {
+            const btn = e.target.closest('.remove-cover-btn');
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+            const idx = Number(btn.dataset.index);
+            if (Number.isNaN(idx)) return;
+            coverFiles = coverFiles.filter((_, i) => i !== idx);
+            if (coverInput) coverInput.value = '';
+            renderCoverPreviews();
+        });
+
         const blockZone = document.getElementById('blockImageUploadZone');
         const blockInput = document.getElementById('blockImageInput');
         blockZone?.addEventListener('click', () => blockInput?.click());
         blockInput?.addEventListener('change', (e) => {
             const file = e.target.files?.[0];
             if (file) handleBlockImageSelect(file);
+        });
+
+        bindBlocksListEvents();
+    }
+
+    function bindBlocksListEvents() {
+        const list = document.getElementById('blocksList');
+        if (!list || list.dataset.bound === '1') return;
+        list.dataset.bound = '1';
+
+        list.addEventListener('click', async (e) => {
+            const editBtn = e.target.closest('[data-edit-block]');
+            if (editBtn) {
+                showBlockEditor(Number(editBtn.dataset.editBlock));
+                return;
+            }
+
+            const deleteBtn = e.target.closest('[data-delete-block]');
+            if (deleteBtn) {
+                const index = Number(deleteBtn.dataset.deleteBlock);
+                const confirmed = await U.confirm('Supprimer ce bloc ?');
+                if (!confirmed) return;
+                blocks.splice(index, 1);
+                renderBlocks();
+                return;
+            }
+
+            const moveBtn = e.target.closest('[data-move-block]');
+            if (moveBtn) {
+                moveBlock(Number(moveBtn.dataset.index), Number(moveBtn.dataset.direction));
+            }
         });
     }
 
@@ -126,8 +176,37 @@
     }
 
     function handleCoverSelect(files) {
-        coverFiles = files;
+        coverFiles = [...coverFiles, ...files];
         renderCoverPreviews();
+    }
+
+    function renderCoverPreviewItem(file, index) {
+        const wrap = document.createElement('div');
+        wrap.className = 'cover-preview-item';
+
+        if (typeof file === 'string') {
+            wrap.innerHTML = `
+                <img src="${U.mediaUrl(file)}" alt="Couverture">
+                <button type="button" class="remove-cover-btn" data-index="${index}" aria-label="Supprimer">&times;</button>
+            `;
+            return wrap;
+        }
+
+        wrap.innerHTML = `
+            <div class="cover-preview-loading">Chargement…</div>
+            <button type="button" class="remove-cover-btn" data-index="${index}" aria-label="Supprimer">&times;</button>
+        `;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const loading = wrap.querySelector('.cover-preview-loading');
+            if (loading) {
+                loading.outerHTML = `<img src="${e.target.result}" alt="Couverture">`;
+            }
+        };
+        reader.readAsDataURL(file);
+
+        return wrap;
     }
 
     function renderCoverPreviews() {
@@ -153,36 +232,7 @@
         preview.style.display = 'flex';
 
         coverFiles.forEach((file, index) => {
-            const wrap = document.createElement('div');
-            wrap.className = 'cover-preview-item';
-
-            if (typeof file === 'string') {
-                wrap.innerHTML = `
-                    <img src="${U.mediaUrl(file)}" alt="Couverture">
-                    <button type="button" class="remove-cover-btn" data-index="${index}" aria-label="Supprimer">&times;</button>
-                `;
-                preview.appendChild(wrap);
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                wrap.innerHTML = `
-                    <img src="${e.target.result}" alt="Couverture">
-                    <button type="button" class="remove-cover-btn" data-index="${index}" aria-label="Supprimer">&times;</button>
-                `;
-                preview.appendChild(wrap);
-            };
-            reader.readAsDataURL(file);
-        });
-
-        preview.querySelectorAll('.remove-cover-btn').forEach((btn) => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const idx = Number(btn.dataset.index);
-                coverFiles = coverFiles.filter((_, i) => i !== idx);
-                renderCoverPreviews();
-            });
+            preview.appendChild(renderCoverPreviewItem(file, index));
         });
     }
 
@@ -229,28 +279,32 @@
     }
 
     function showBlockEditor(index = null) {
-        currentBlockIndex = index;
-        document.getElementById('editorTitle').textContent = index !== null ? 'Modifier le bloc' : 'Nouveau bloc';
-        document.getElementById('saveBlockText').textContent = index !== null ? 'Enregistrer le bloc' : 'Ajouter le bloc';
+        const editIndex = typeof index === 'number' && Number.isFinite(index) ? index : null;
+        currentBlockIndex = editIndex;
+        document.getElementById('editorTitle').textContent = editIndex !== null ? 'Modifier le bloc' : 'Nouveau bloc';
+        document.getElementById('saveBlockText').textContent = editIndex !== null ? 'Enregistrer le bloc' : 'Ajouter le bloc';
         resetBlockForm();
 
-        if (index !== null && blocks[index]) {
-            const block = blocks[index];
+        if (editIndex !== null && blocks[editIndex]) {
+            const block = blocks[editIndex];
             document.getElementById('blockTitle').value = block.title || '';
             quillEditor?.clipboard.dangerouslyPasteHTML(block.content || '');
             document.getElementById('blockImageCaption').value = block.caption || '';
             document.getElementById('blockVideoUrl').value = block.videos || '';
-            if (block.cover && typeof block.cover === 'string') {
+            if (block.cover) {
                 blockImageFile = block.cover;
                 const preview = document.getElementById('blockImagePreview');
                 const placeholder = document.getElementById('blockImagePlaceholder');
                 document.getElementById('blockImageUploadZone')?.classList.add('has-image');
                 if (placeholder) placeholder.style.display = 'none';
                 if (preview) {
+                    const imageSrc = block.cover instanceof File
+                        ? URL.createObjectURL(block.cover)
+                        : U.mediaUrl(block.cover);
                     preview.style.display = 'block';
                     preview.innerHTML = `
                         <div class="cover-preview-item" style="width:200px;height:140px;">
-                            <img src="${U.mediaUrl(block.cover)}" alt="Aperçu bloc">
+                            <img src="${imageSrc}" alt="Aperçu bloc">
                             <button type="button" class="remove-cover-btn" id="removeBlockImageBtn" aria-label="Supprimer">&times;</button>
                         </div>
                     `;
@@ -263,7 +317,12 @@
         }
 
         document.getElementById('blockEditor').style.display = 'block';
-        document.getElementById('blockEditor').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('blockEditor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (editIndex !== null) {
+            requestAnimationFrame(() => highlightBlockCard(editIndex));
+        }
+
         setTimeout(attachAiToBlockFields, 100);
     }
 
@@ -284,7 +343,7 @@
     function saveBlock() {
         const title = document.getElementById('blockTitle').value.trim();
         const textContent = quillEditor?.getText()?.trim() || '';
-        const hasContent = textContent && textContent !== '';
+        const hasContent = textContent !== '' && textContent !== '\n';
         const htmlContent = hasContent ? quillEditor.root.innerHTML : '';
         const videoUrl = document.getElementById('blockVideoUrl').value.trim();
         const caption = document.getElementById('blockImageCaption').value.trim();
@@ -307,7 +366,9 @@
             videos: videoUrl || null,
         };
 
-        if (currentBlockIndex !== null) {
+        const isEdit = typeof currentBlockIndex === 'number' && currentBlockIndex >= 0;
+
+        if (isEdit) {
             if (blocks[currentBlockIndex]?.id) blockData.id = blocks[currentBlockIndex].id;
             if (!blockImageFile && blocks[currentBlockIndex]?.cover) {
                 blockData.cover = blocks[currentBlockIndex].cover;
@@ -317,9 +378,78 @@
             blocks.push(blockData);
         }
 
+        const savedIndex = isEdit ? currentBlockIndex : blocks.length - 1;
+        const wasEdit = isEdit;
         renderBlocks();
         cancelBlockEdit();
-        U.showToast('Bloc enregistré localement', 'success');
+        highlightBlockCard(savedIndex);
+        U.showToast(wasEdit ? 'Bloc modifié' : 'Bloc ajouté à l\'article', 'success');
+    }
+
+    function moveBlock(index, direction) {
+        const newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= blocks.length) return;
+
+        const temp = blocks[index];
+        blocks[index] = blocks[newIndex];
+        blocks[newIndex] = temp;
+        renderBlocks();
+        highlightBlockCard(newIndex);
+    }
+
+    function getBlockContentTypes(block) {
+        const types = [];
+        if (block.content) types.push('Texte');
+        if (block.cover) types.push('Image');
+        if (block.videos) types.push('Vidéo');
+        return types.join(' + ') || 'Bloc';
+    }
+
+    function getBlockPreviewText(block) {
+        const parts = [];
+
+        if (block.content) {
+            const temp = document.createElement('div');
+            temp.innerHTML = block.content;
+            const text = (temp.textContent || '').trim();
+            if (text) parts.push(text.substring(0, 120));
+        }
+
+        if (block.caption) {
+            parts.push(`Légende : ${block.caption}`);
+        }
+
+        if (block.videos) {
+            parts.push(`Vidéo : ${block.videos.substring(0, 48)}${block.videos.length > 48 ? '…' : ''}`);
+        }
+
+        return parts.join(' • ') || 'Contenu du bloc';
+    }
+
+    function getBlockImageSrc(block) {
+        if (!block.cover) return '';
+
+        if (block.cover instanceof File) {
+            return URL.createObjectURL(block.cover);
+        }
+
+        if (typeof block.cover === 'string') {
+            return U.mediaUrl(block.cover);
+        }
+
+        return '';
+    }
+
+    function highlightBlockCard(index) {
+        const list = document.getElementById('blocksList');
+        const card = list?.querySelector(`[data-block-index="${index}"]`);
+        if (!card) return;
+
+        list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        card.classList.remove('block-item--highlight');
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        card.classList.add('block-item--highlight');
+        window.setTimeout(() => card.classList.remove('block-item--highlight'), 2200);
     }
 
     function renderBlocks() {
@@ -337,32 +467,41 @@
             return;
         }
 
-        list.innerHTML = blocks.map((block, index) => `
-            <div class="block-card">
-                <div class="block-card-header">
-                    <div>
-                        <strong>${U.escapeHtml(block.title || `Bloc ${index + 1}`)}</strong>
-                        ${block.content ? `<p class="muted" style="margin:0.35rem 0 0;font-size:0.875rem;">Contenu texte</p>` : ''}
-                        ${block.videos ? `<p class="muted" style="margin:0.25rem 0 0;font-size:0.875rem;">Vidéo YouTube</p>` : ''}
-                        ${block.cover ? `<p class="muted" style="margin:0.25rem 0 0;font-size:0.875rem;">Image jointe</p>` : ''}
-                    </div>
-                    <div class="block-card-actions">
-                        <button type="button" class="btn btn-secondary btn-sm" data-edit-block="${index}">Modifier</button>
-                        <button type="button" class="btn btn-danger btn-sm" data-delete-block="${index}">Supprimer</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+        list.innerHTML = blocks.map((block, index) => {
+            const imageSrc = getBlockImageSrc(block);
+            const imageHtml = imageSrc
+                ? `<img src="${imageSrc}" class="block-item-image" alt="Aperçu du bloc">`
+                : '';
 
-        list.querySelectorAll('[data-edit-block]').forEach((btn) => {
-            btn.addEventListener('click', () => showBlockEditor(Number(btn.dataset.editBlock)));
-        });
-        list.querySelectorAll('[data-delete-block]').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                blocks.splice(Number(btn.dataset.deleteBlock), 1);
-                renderBlocks();
-            });
-        });
+            return `
+                <article class="block-item" data-block-index="${index}">
+                    <div class="block-item-order">
+                        <button type="button" class="block-item-order-btn" data-move-block data-index="${index}" data-direction="-1" ${index === 0 ? 'disabled' : ''} aria-label="Monter le bloc">
+                            ${U.icon('chevron-up')}
+                        </button>
+                        <button type="button" class="block-item-order-btn" data-move-block data-index="${index}" data-direction="1" ${index === blocks.length - 1 ? 'disabled' : ''} aria-label="Descendre le bloc">
+                            ${U.icon('chevron-down')}
+                        </button>
+                    </div>
+                    <div class="block-item-content">
+                        <div class="block-item-type">${U.escapeHtml(getBlockContentTypes(block))}</div>
+                        <div class="block-item-title">${U.escapeHtml(block.title || `Bloc ${index + 1}`)}</div>
+                        <div class="block-item-preview">${U.escapeHtml(getBlockPreviewText(block))}</div>
+                    </div>
+                    ${imageHtml}
+                    <div class="block-item-actions">
+                        <button type="button" class="block-item-action-btn block-item-action-btn--edit" data-edit-block="${index}" aria-label="Modifier le bloc" title="Modifier">
+                            ${U.icon('pencil')}
+                        </button>
+                        <button type="button" class="block-item-action-btn block-item-action-btn--delete" data-delete-block="${index}" aria-label="Supprimer le bloc" title="Supprimer">
+                            ${U.icon('trash-2')}
+                        </button>
+                    </div>
+                </article>
+            `;
+        }).join('');
+
+        U.refreshIcons(list);
     }
 
     async function loadArticle(id) {
@@ -415,7 +554,9 @@
         const title = document.getElementById('articleTitle').value.trim();
         const content = document.getElementById('articleDescription').value.trim();
         const category = document.getElementById('articleCategory').value;
-        const publishDate = document.getElementById('articlePublishDate').value;
+        const publishDate = publishDatePicker?.input?.value
+            || document.getElementById('articlePublishDate')?.value
+            || '';
         const caption = document.getElementById('coverCaption').value.trim();
         const videos = document.getElementById('articleVideo').value.trim();
         const isFeatured = document.getElementById('articleFeatured').checked;
