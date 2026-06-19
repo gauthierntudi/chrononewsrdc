@@ -6,7 +6,6 @@ declare(strict_types=1);
 /** @var int $article_id */
 
 require_once dirname(__DIR__, 2).'/brand.php';
-require_once dirname(__DIR__, 2).'/front-asset-paths.php';
 
 $article_id = (int) ($article_id ?? 0);
 
@@ -31,12 +30,11 @@ $cnMetaTitle = clean_title($metaArticle['titre']).' — '.cn_site_name();
 $cnMetaDescription = excerpt($metaArticle['contenu'], 160);
 $cnMetaUrl = cn_site_url().cn_article_page_url($article_id, (string) $metaArticle['titre']);
 $cnMetaType = 'article';
-$cnMetaOgImage = cn_site_url().cn_ajax_url('og_image').'?id='.$article_id;
+$cnMetaOgImage = cn_og_image($article_id);
+$cnMetaOgImageAlt = clean_title($metaArticle['titre']);
 
 include dirname(__DIR__, 2).'/front-meta.php';
 ?>
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta property="article:published_time" content="<?= htmlspecialchars(date('c', strtotime($metaArticle['date_add'] ?? $metaArticle['created_at'])), ENT_QUOTES, 'UTF-8') ?>">
 <?php if (! empty($metaArticle['date_update'])): ?>
 <meta property="article:modified_time" content="<?= htmlspecialchars(date('c', strtotime($metaArticle['date_update'])), ENT_QUOTES, 'UTF-8') ?>">

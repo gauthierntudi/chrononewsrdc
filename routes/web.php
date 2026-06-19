@@ -50,7 +50,7 @@ Route::redirect('/nous-contacter', '/contact');
 Route::get('/qui-sommes-nous', [AboutController::class, 'index'])->name('about');
 Route::get('/politique-de-confidentialite', [PrivacyController::class, 'index'])->name('privacy');
 
-Route::get('/og-image', [LegacyFrontController::class, 'ogImage']);
+Route::get('/og-image', [\App\Http\Controllers\Web\OgImageController::class, 'show'])->name('og-image');
 Route::redirect('/og-image.php', '/og-image');
 
 /*

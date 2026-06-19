@@ -21,6 +21,8 @@ return [
             ),
             'logo_front_light' => 'assets/img/logo-front.png',
             'logo_front_dark' => 'assets/img/logo-front-02.png',
+            /** Image source OG par défaut (URL absolue CDN ou chemin public) */
+            'og_image_url' => env('SITE_OG_IMAGE_URL') ?: env('SITE_EMAIL_LOGO_URL'),
         ],
         'colors' => [
             'red' => '#d11810',

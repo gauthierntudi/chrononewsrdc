@@ -59,9 +59,4 @@ class LegacyFrontController extends Controller
     {
         return $this->legacy->render('politique-de-confidentialite.php');
     }
-
-    public function ogImage(Request $request): Response
-    {
-        return $this->legacy->render('og-image.php', $request->query());
-    }
 }

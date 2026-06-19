@@ -52,7 +52,37 @@ function cn_site_name(): string
 
 function cn_site_url(): string
 {
+    if (function_exists('config')) {
+        try {
+            $appUrl = rtrim((string) config('app.url', ''), '/');
+            if ($appUrl !== '') {
+                return $appUrl;
+            }
+
+            $siteUrl = rtrim((string) config('chrononews.url', ''), '/');
+            if ($siteUrl !== '') {
+                return $siteUrl;
+            }
+        } catch (Throwable) {
+            // Constante legacy ci-dessous.
+        }
+    }
+
     return CN_SITE_URL;
+}
+
+function cn_absolute_url(string $path): string
+{
+    return rtrim(cn_site_url(), '/').'/'.ltrim($path, '/');
+}
+
+function cn_og_image(?int $articleId = null): string
+{
+    if ($articleId !== null && $articleId > 0) {
+        return cn_absolute_url('og-image?id='.$articleId);
+    }
+
+    return cn_absolute_url('og-image');
 }
 
 function cn_tagline(): string
@@ -88,11 +118,6 @@ function cn_logo_dark(): string
 function cn_logo_footer(): string
 {
     return CN_FOOTER_LOGO;
-}
-
-function cn_og_image(): string
-{
-    return CN_SITE_URL.CN_FAVICON;
 }
 
 function cn_config_string(string $key, string $default): string
