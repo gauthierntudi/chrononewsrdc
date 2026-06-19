@@ -50,7 +50,8 @@ Route::redirect('/nous-contacter', '/contact');
 Route::get('/qui-sommes-nous', [AboutController::class, 'index'])->name('about');
 Route::get('/politique-de-confidentialite', [PrivacyController::class, 'index'])->name('privacy');
 
-Route::get('/og-image.php', [LegacyFrontController::class, 'ogImage']);
+Route::get('/og-image', [LegacyFrontController::class, 'ogImage']);
+Route::redirect('/og-image.php', '/og-image');
 
 /*
 | Médias legacy (/uploads/…) — redirige vers S3 quand MEDIA_DISK=s3
@@ -60,10 +61,14 @@ Route::get('/uploads/{path}', [MediaRedirectController::class, 'uploads'])
     ->name('media.uploads');
 
 /*
-|--------------------------------------------------------------------------
-| Legacy publication AJAX (compatibilité front)
+| Legacy publication AJAX (compatibilité front — sans .php)
 |--------------------------------------------------------------------------
 */
+Route::get('/publication/ajax/get-ad', [PublicationAjaxController::class, 'getAd']);
+Route::get('/publication/ajax/live-search', [PublicationAjaxController::class, 'liveSearch']);
+Route::post('/publication/ajax/track-ad', [PublicationAjaxController::class, 'trackAd']);
+
+/** Anciennes URLs (.php) — compat laravel.cloud */
 Route::get('/publication/ajax/get_ad.php', [PublicationAjaxController::class, 'getAd']);
 Route::post('/publication/ajax/track_ad', [PublicationAjaxController::class, 'trackAd']);
 Route::post('/publication/ajax/track_ad.php', [PublicationAjaxController::class, 'trackAd']);

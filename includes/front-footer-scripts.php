@@ -1,27 +1,28 @@
 <?php
 /** Scripts footer communs au front (Elementor, Bopea). */
+require_once __DIR__.'/front-asset-paths.php';
 ?>
-<link rel='stylesheet' id='elementor-post-22454-css' href='/wp-content/uploads/sites/5/elementor/css/post-22454.css' media='all' />
-<link rel='stylesheet' id='elementor-post-22143-css' href='/wp-content/uploads/sites/5/elementor/css/post-22143.css' media='all' />
-<link rel='stylesheet' id='widget-divider-css' href='/wp-content/plugins/elementor/assets/css/widget-divider.min.css' media='all' />
-<link rel='stylesheet' id='elementor-post-12224-css' href='/wp-content/uploads/sites/5/elementor/css/post-12224.css' media='all' />
+<link rel='stylesheet' id='elementor-post-22454-css' href='<?= cn_front_upload('sites/5/elementor/css/post-22454.css') ?>' media='all' />
+<link rel='stylesheet' id='elementor-post-22143-css' href='<?= cn_front_upload('sites/5/elementor/css/post-22143.css') ?>' media='all' />
+<link rel='stylesheet' id='widget-divider-css' href='<?= cn_front_plugin('elementor/assets/css/widget-divider.min.css') ?>' media='all' />
+<link rel='stylesheet' id='elementor-post-12224-css' href='<?= cn_front_upload('sites/5/elementor/css/post-12224.css') ?>' media='all' />
 
-<script src="/wp-includes/js/imagesloaded.min.js" id="imagesloaded-js"></script>
-<script src="/wp-includes/js/dist/hooks.min.js" id="wp-hooks-js"></script>
+<script src="<?= cn_front_core('js/imagesloaded.min.js') ?>" id="imagesloaded-js"></script>
+<script src="<?= cn_front_core('js/dist/hooks.min.js') ?>" id="wp-hooks-js"></script>
 
-<script src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js" id="swiper-js"></script>
+<script src="<?= cn_front_plugin('elementor/assets/lib/swiper/v8/swiper.min.js') ?>" id="swiper-js"></script>
 <script src="/js/breaking-news.js" id="chrononews-breaking-news-js" defer></script>
-<script src="/wp-content/themes/bopea/js/jquery.waypoints.min.js" id="waypoints-js"></script>
-<script src="/wp-content/themes/bopea/js/cookie.min.js" id="cookie-js"></script>
-<script src="/wp-content/themes/bopea/js/lazysizes.min.js" id="lazysizes-js"></script>
-<script src="/wp-content/themes/bopea/js/glightbox.min.js" id="glightbox-js"></script>
+<script src="<?= cn_front_theme('bopea/js/jquery.waypoints.min.js') ?>" id="waypoints-js"></script>
+<script src="<?= cn_front_theme('bopea/js/cookie.min.js') ?>" id="cookie-js"></script>
+<script src="<?= cn_front_theme('bopea/js/lazysizes.min.js') ?>" id="lazysizes-js"></script>
+<script src="<?= cn_front_theme('bopea/js/glightbox.min.js') ?>" id="glightbox-js"></script>
 <script id="bopea-custom-js-extra">
 <?php include __DIR__.'/jl-params.php'; ?>
 </script>
-<script src="/wp-content/themes/bopea/js/customs.js" id="bopea-custom-js"></script>
-<script src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js" id="elementor-webpack-runtime-js"></script>
-<script src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js" id="elementor-frontend-modules-js"></script>
-<script src="/wp-includes/js/jquery/ui/core.min.js" id="jquery-ui-core-js"></script>
+<script src="<?= cn_front_theme('bopea/js/customs.js') ?>" id="bopea-custom-js"></script>
+<script src="<?= cn_front_plugin('elementor/assets/js/webpack.runtime.min.js') ?>" id="elementor-webpack-runtime-js"></script>
+<script src="<?= cn_front_plugin('elementor/assets/js/frontend-modules.min.js') ?>" id="elementor-frontend-modules-js"></script>
+<script src="<?= cn_front_core('js/jquery/ui/core.min.js') ?>" id="jquery-ui-core-js"></script>
 <script id="elementor-frontend-js-before">
 var elementorFrontendConfig = {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
@@ -84,7 +85,7 @@ var elementorFrontendConfig = {
         "import-export-customization": true,
     },
     urls: {
-        assets: "/wp-content/plugins/elementor/assets/",
+        assets: "<?= cn_front_plugin('elementor/assets/') ?>",
         ajaxurl: "",
         uploadUrl: "",
     },
@@ -105,7 +106,7 @@ var elementorFrontendConfig = {
 };
 
 </script>
-<script src="/wp-content/plugins/elementor/assets/js/frontend.min.js" id="elementor-frontend-js"></script>
+<script src="<?= cn_front_plugin('elementor/assets/js/frontend.min.js') ?>" id="elementor-frontend-js"></script>
 
 <script>
    // À mettre avant que les scripts frontend problematiques se déclenchent

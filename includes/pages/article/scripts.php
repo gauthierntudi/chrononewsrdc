@@ -236,8 +236,8 @@ $cnFrontBase = cn_site_url();
 </script>
 <script>
 (function () {
-  const GET_AD_URL = '/publication/ajax/get_ad.php';
-  const TRACK_URL  = '/publication/ajax/track_ad';
+  const GET_AD_URL = <?= json_encode(cn_ajax_url('get_ad'), JSON_UNESCAPED_SLASHES) ?>;
+  const TRACK_URL  = <?= json_encode(cn_ajax_url('track_ad'), JSON_UNESCAPED_SLASHES) ?>;
   const DEFAULT_ROTATE_MS = 20000;
 
   // Tes dimensions (source de vérité front)

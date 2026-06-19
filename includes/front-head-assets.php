@@ -1,6 +1,7 @@
 <?php
 /** Assets CSS/JS communs au front (extrait de index.php). */
 require_once __DIR__.'/brand.php';
+require_once __DIR__.'/front-asset-paths.php';
 $frontStylesheet = $frontStylesheet ?? '/css/styles-home.css';
 $frontExtraStylesheets = $frontExtraStylesheets ?? [];
 ?>
@@ -343,64 +344,64 @@ $frontExtraStylesheets = $frontExtraStylesheets ?? [];
       <link
           rel="stylesheet"
           id="contact-form-7-css"
-          href="/wp-content/plugins/contact-form-7/includes/css/styles.css"
+          href="<?= cn_front_plugin('contact-form-7/includes/css/styles.css') ?>"
           media="all"
       />
 
-      <link rel="stylesheet" id="bopea_layout-css" href="/wp-content/themes/bopea/css/layout.css" media="all" />
-      <link rel="stylesheet" id="bopea_style-css" href="/wp-content/themes/bopea/style.css" media="all" />
+      <link rel="stylesheet" id="bopea_layout-css" href="<?= cn_front_theme('bopea/css/layout.css') ?>" media="all" />
+      <link rel="stylesheet" id="bopea_style-css" href="<?= cn_front_theme('bopea/style.css') ?>" media="all" />
       <link rel="stylesheet" id="bopea_style-inline-css" href="<?= htmlspecialchars($frontStylesheet, ENT_QUOTES, 'UTF-8') ?>" media="all" />
       <link rel="stylesheet" id="chrononews-drop-cap-css" href="/css/chrononews-drop-cap.css" media="all" />
       <link rel="stylesheet" id="chrononews-breaking-news-css" href="/css/breaking-news.css" media="all" />
 <?php foreach ($frontExtraStylesheets as $extraStylesheet): ?>
       <link rel="stylesheet" href="<?= htmlspecialchars($extraStylesheet, ENT_QUOTES, 'UTF-8') ?>" media="all" />
 <?php endforeach; ?>
-      <link rel="stylesheet" id="glightbox-css" href="/wp-content/themes/bopea/css/glightbox.min.css" media="all" />
-      <link rel="stylesheet" id="swiper-css" href="/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css" />
+      <link rel="stylesheet" id="glightbox-css" href="<?= cn_front_theme('bopea/css/glightbox.min.css') ?>" media="all" />
+      <link rel="stylesheet" id="swiper-css" href="<?= cn_front_plugin('elementor/assets/lib/swiper/v8/css/swiper.min.css') ?>" />
       <link
           rel="stylesheet"
           id="elementor-frontend-css"
-          href="/wp-content/plugins/elementor/assets/css/frontend.min.css"
+          href="<?= cn_front_plugin('elementor/assets/css/frontend.min.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-post-5-css"
-          href="/wp-content/uploads/sites/5/elementor/css/post-5.css"
+          href="<?= cn_front_upload('sites/5/elementor/css/post-5.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-post-13574-css"
-          href="/wp-content/uploads/sites/5/elementor/css/post-13574.css"
+          href="<?= cn_front_upload('sites/5/elementor/css/post-13574.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-post-22453-css"
-          href="/wp-content/uploads/sites/5/elementor/css/post-22453.css"
+          href="<?= cn_front_upload('sites/5/elementor/css/post-22453.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-post-12383-css"
-          href="/wp-content/uploads/sites/5/elementor/css/post-12383.css"
+          href="<?= cn_front_upload('sites/5/elementor/css/post-12383.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-gf-local-roboto-css"
-          href="/wp-content/uploads/sites/5/elementor/google-fonts/css/roboto.css"
+          href="<?= cn_front_upload('sites/5/elementor/google-fonts/css/roboto.css') ?>"
           media="all"
       />
       <link
           rel="stylesheet"
           id="elementor-gf-local-robotoslab-css"
-          href="/wp-content/uploads/sites/5/elementor/google-fonts/css/robotoslab.css"
+          href="<?= cn_front_upload('sites/5/elementor/google-fonts/css/robotoslab.css') ?>"
           media="all"
       />
-      <script src="/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
-      <script src="/wp-includes/js/jquery/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+      <script src="<?= cn_front_core('js/jquery/jquery.min.js') ?>" id="jquery-core-js"></script>
+      <script src="<?= cn_front_core('js/jquery/jquery-migrate.min.js') ?>" id="jquery-migrate-js"></script>
 
       <meta
           name="generator"

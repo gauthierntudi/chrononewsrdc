@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->validateCsrfTokens(except: [
+            'publication/ajax/track-ad',
             'publication/ajax/track_ad',
             'publication/ajax/track_ad.php',
         ]);

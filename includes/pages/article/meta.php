@@ -6,6 +6,7 @@ declare(strict_types=1);
 /** @var int $article_id */
 
 require_once dirname(__DIR__, 2).'/brand.php';
+require_once dirname(__DIR__, 2).'/front-asset-paths.php';
 
 $article_id = (int) ($article_id ?? 0);
 
@@ -30,7 +31,7 @@ $cnMetaTitle = clean_title($metaArticle['titre']).' — '.cn_site_name();
 $cnMetaDescription = excerpt($metaArticle['contenu'], 160);
 $cnMetaUrl = cn_site_url().cn_article_page_url($article_id, (string) $metaArticle['titre']);
 $cnMetaType = 'article';
-$cnMetaOgImage = cn_site_url().'/og-image.php?id='.$article_id;
+$cnMetaOgImage = cn_site_url().cn_ajax_url('og_image').'?id='.$article_id;
 
 include dirname(__DIR__, 2).'/front-meta.php';
 ?>

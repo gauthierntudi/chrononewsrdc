@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__.'/media-url.php';
+require_once __DIR__.'/front-asset-paths.php';
 
 if (! function_exists('legacy_front_schema_ready')) {
     /**

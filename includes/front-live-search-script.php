@@ -45,7 +45,7 @@
       if (controller) controller.abort();
       controller = new AbortController();
 
-      const url = '/publication/ajax/live-search.php?q=' + encodeURIComponent(q) + '&limit=6';
+      const url = <?= json_encode(cn_ajax_url('live_search'), JSON_UNESCAPED_SLASHES) ?> + '?q=' + encodeURIComponent(q) + '&limit=6';
 
       const res = await fetch(url, {
         headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
