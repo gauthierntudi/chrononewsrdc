@@ -56,9 +56,11 @@ foreach ($breakingArticles as $row) {
 if ($breakingItems === []) {
     return;
 }
+
+$breakingNewsLayout = ($breakingNewsLayout ?? 'inner') === 'home' ? 'home' : 'inner';
 ?>
-<div class="cn-breaking-news" role="region" aria-label="Breaking News">
-    <div class="jlc-container cn-breaking-news__container">
+<div class="cn-breaking-news cn-breaking-news--<?= $breakingNewsLayout ?>" role="region" aria-label="Breaking News">
+    <div class="cn-breaking-news__container">
         <div class="cn-breaking-news__bar">
             <div class="cn-breaking-news__label" aria-hidden="true">
                 <span class="cn-breaking-news__dot"></span>

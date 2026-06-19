@@ -45,7 +45,7 @@ class ArticleController extends Controller
                 ],
             ],
             'legacyHead' => [
-                'frontStylesheet' => '/css/styles-home.css',
+                'frontStylesheet' => '/css/styles-view.css',
             ],
         ]);
     }

@@ -17,8 +17,14 @@
 }
 
 /* Accueil : même largeur que le conteneur Elementor (padding 20px + inner 1140px) */
-.cn-breaking-news:has(+ .jl_home_bw) .cn-breaking-news__container {
+.cn-breaking-news--home .cn-breaking-news__container {
     max-width: calc(var(--container-max-width, 1140px) + 40px);
+    padding-inline: 20px;
+}
+
+/* Pages intérieures (article, catégorie, recherche…) : aligné sur .jlc-container */
+.cn-breaking-news--inner .cn-breaking-news__container {
+    max-width: var(--jl-main-width, 1180px);
     padding-inline: 20px;
 }
 
@@ -159,6 +165,13 @@
 @media (max-width: 767px) {
     .cn-breaking-news {
         padding: 8px 0 6px;
+        padding-left: max(0px, env(safe-area-inset-left, 0px));
+        padding-right: max(0px, env(safe-area-inset-right, 0px));
+    }
+
+    .cn-breaking-news--home .cn-breaking-news__container,
+    .cn-breaking-news--inner .cn-breaking-news__container {
+        padding-inline: max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
     }
 
     .cn-breaking-news__bar {
@@ -260,14 +273,23 @@
 }
 
 /* Rapprocher la pub header du bandeau breaking news (accueil) */
-.cn-breaking-news + .jl_home_bw .elementor-element-394f5a09 {
+.cn-breaking-news--home + .jl_home_bw .elementor-element-394f5a09 {
     --margin-top: 14px;
     margin-top: 14px;
 }
 
+/* Rapprocher le contenu du bandeau (pages intérieures) */
+.cn-breaking-news--inner + .jl_block_content {
+    padding-top: 14px;
+}
+
 @media (max-width: 767px) {
-    .cn-breaking-news + .jl_home_bw .elementor-element-394f5a09 {
+    .cn-breaking-news--home + .jl_home_bw .elementor-element-394f5a09 {
         --margin-top: 10px;
         margin-top: 10px;
+    }
+
+    .cn-breaking-news--inner + .jl_block_content {
+        padding-top: 10px;
     }
 }

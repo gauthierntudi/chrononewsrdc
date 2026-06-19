@@ -35,6 +35,7 @@ class CategoryController extends Controller
             'page' => $page,
             'legacyHeader' => ['currentArticle' => ['categorie' => $resolved]],
             'legacyHead' => [
+                'frontStylesheet' => '/css/styles-view.css',
                 'frontExtraStylesheets' => [
                     '/css/category-animations.css',
                     '/css/category-pagination.css',

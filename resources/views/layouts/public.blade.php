@@ -22,7 +22,12 @@
 <div class="options_layout_wrapper jl_clear_at">
     <div class="options_layout_container tp_head_off">
         {!! \App\Support\LegacyInclude::render('includes/header.php', $legacyHeader ?? []) !!}
-        {!! \App\Support\LegacyInclude::render('includes/partials/breaking-news.php') !!}
+        @php
+            $breakingNewsLayout = request()->routeIs('home') ? 'home' : 'inner';
+        @endphp
+        {!! \App\Support\LegacyInclude::render('includes/partials/breaking-news.php', [
+            'breakingNewsLayout' => $breakingNewsLayout,
+        ]) !!}
 
         @yield('content')
 
