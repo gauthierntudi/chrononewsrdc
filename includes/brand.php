@@ -52,6 +52,21 @@ function cn_site_name(): string
 
 function cn_site_url(): string
 {
+    if (class_exists(\App\Support\SiteUrl::class)) {
+        return \App\Support\SiteUrl::base();
+    }
+
+    if (! empty($_SERVER['HTTP_HOST'])) {
+        $scheme = 'http';
+        if (! empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            $scheme = trim(explode(',', (string) $_SERVER['HTTP_X_FORWARDED_PROTO'])[0]);
+        } elseif (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+            $scheme = 'https';
+        }
+
+        return rtrim($scheme.'://'.trim((string) $_SERVER['HTTP_HOST'], '/'), '/');
+    }
+
     if (function_exists('config')) {
         try {
             $appUrl = rtrim((string) config('app.url', ''), '/');

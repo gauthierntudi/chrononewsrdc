@@ -3,6 +3,7 @@
 namespace App\Services\Media;
 
 use App\Models\Article;
+use App\Support\SiteUrl;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
@@ -19,14 +20,13 @@ class OgImageService
 
     public function absoluteUrl(?int $articleId = null): string
     {
-        $base = rtrim((string) config('app.url', config('chrononews.url', '')), '/');
         $path = '/og-image';
 
         if ($articleId !== null && $articleId > 0) {
             $path .= '?id='.$articleId;
         }
 
-        return $base.$path;
+        return SiteUrl::absolute(ltrim($path, '/'));
     }
 
     public function render(?int $articleId = null): ?string
