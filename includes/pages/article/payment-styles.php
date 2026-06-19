@@ -433,16 +433,34 @@
     }
     
     body.options_dark_skin .premium-lock-icon {
-        background: #334155;
-        color: #fb923c;
+        background: rgba(209, 24, 16, 0.18);
+        color: #f87171;
     }
-    
+
+    body.options_dark_skin .premium-lock-title {
+        color: #ffffff !important;
+    }
+
+    body.options_dark_skin .premium-lock-desc,
+    body.options_dark_skin .premium-lock-login {
+        color: #94a3b8 !important;
+    }
+
     body.options_dark_skin .btn-buy {
-        background: #334155;
+        background: var(--cn-blue);
         color: #ffffff;
     }
-    
+
     body.options_dark_skin .btn-buy:hover {
-        background: #475569;
+        background: #184bcc;
+    }
+
+    body.options_dark_skin .btn-sub {
+        background: var(--cn-red);
+        color: #ffffff;
+    }
+
+    body.options_dark_skin .btn-sub:hover {
+        background: var(--cn-red-hover);
     }
 </style>

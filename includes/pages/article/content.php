@@ -465,30 +465,30 @@
                                             <div class="premium-lock-icon">
                                                 <i class="fa-solid fa-lock"></i>
                                             </div>
-                                            <h3 style="font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 10px;">Cet article est réservé aux abonnés</h3>
-                                            <p style="color: #64748b; font-size: 15px; margin-bottom: 0;">Accédez à l'intégralité de cet article en l'achetant à l'unité ou en souscrivant à un abonnement.</p>
+                                            <h3 class="premium-lock-title">Cet article est réservé aux abonnés</h3>
+                                            <p class="premium-lock-desc">Accédez à l'intégralité de cet article en l'achetant à l'unité ou en souscrivant à un abonnement.</p>
                                             
                                             <div class="premium-options">
                                                 <!-- Achat unique -->
                                                 <div onclick="initiatePurchase(<?php echo $article_id; ?>, <?php echo $article_price; ?>)" style="cursor: pointer;">
-                                                    <button class="premium-btn btn-buy" style="width: 100%;">
+                                                    <button type="button" class="premium-btn btn-buy">
                                                         Acheter l'article<br>
-                                                        <span style="font-size: 18px; font-weight: 700;">$<?php echo $article_price; ?></span>
+                                                        <span class="premium-btn-price">$<?php echo $article_price; ?></span>
                                                     </button>
                                                 </div>
                                                 
                                                 <!-- Abonnement -->
                                                 <div onclick="redirectToSubscription()" style="cursor: pointer;">
-                                                    <button class="premium-btn btn-sub" style="width: 100%;">
+                                                    <button type="button" class="premium-btn btn-sub">
                                                         S'abonner<br>
-                                                        <span style="font-size: 12px; font-weight: 400; color: #ffffff; opacity: 0.9;">Accès illimité</span>
+                                                        <span class="premium-btn-sub">Accès illimité</span>
                                                     </button>
                                                 </div>
                                             </div>
 
                                             <?php if (!$is_logged_in): ?>
-                                                <p style="margin-top: 20px; font-size: 13px; color: #94a3b8;">
-                                                    Déjà client ? <a href="#" onclick="showLoginModal()" style="color: #2563eb; font-weight: 600; text-decoration: none;">Se connecter</a>
+                                                <p class="premium-lock-login">
+                                                    Déjà client ? <a href="#" onclick="showLoginModal(); return false;">Se connecter</a>
                                                 </p>
                                             <?php endif; ?>
                                         </div>
