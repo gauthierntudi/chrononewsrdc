@@ -10,32 +10,47 @@ $per_page = 8;
 $offset = ($page - 1) * $per_page;
 
 $available_categories = chrononews_categories();
+$category_slug = category_normalize($category_slug);
 if (! in_array($category_slug, $available_categories, true)) {
     $category_slug = 'Actualités';
 }
 
+$category_db_values = $category_slug === 'Culture & Société'
+    ? ['Culture & Société', 'Société']
+    : [$category_slug];
+$category_placeholders = [];
+$category_query_params = [];
+foreach ($category_db_values as $i => $value) {
+    $key = ':category'.$i;
+    $category_placeholders[] = $key;
+    $category_query_params[$key] = $value;
+}
+
 try {
-    $count_stmt = $db->prepare('
+    $count_sql = '
         SELECT COUNT(*) as total
         FROM actualites a
-        WHERE a.categorie = :category
+        WHERE a.categorie IN ('.implode(', ', $category_placeholders).')
         AND a.status = 1
         AND a.statut_validation = \'valide\'
-    ');
-    $count_stmt->execute(['category' => $category_slug]);
+    ';
+    $count_stmt = $db->prepare($count_sql);
+    $count_stmt->execute($category_query_params);
     $total_articles = (int) $count_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
     $stmt = $db->prepare('
         SELECT a.*, u.nom AS auteur_nom
         FROM actualites a
         LEFT JOIN users u ON u.id = a.id_redaction
-        WHERE a.categorie = :category
+        WHERE a.categorie IN ('.implode(', ', $category_placeholders).')
         AND a.status = 1
         AND a.statut_validation = \'valide\'
         ORDER BY a.date_add DESC
         LIMIT :limit OFFSET :offset
     ');
-    $stmt->bindValue(':category', $category_slug, PDO::PARAM_STR);
+    foreach ($category_query_params as $key => $value) {
+        $stmt->bindValue($key, $value, PDO::PARAM_STR);
+    }
     $stmt->bindValue(':limit', $per_page, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();

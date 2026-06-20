@@ -13,7 +13,7 @@ if (! function_exists('chrononews_categories')) {
             'Économie',
             'Justice & Sécurité',
             'Développement & Infrastructures',
-            'Société',
+            'Culture & Société',
             'International',
             'Sport',
             'Interviews',
@@ -33,7 +33,7 @@ if (! function_exists('chrononews_category_colors')) {
             'Économie' => '#ce5105',
             'Justice & Sécurité' => '#434547',
             'Développement & Infrastructures' => '#09b960',
-            'Société' => '#6709dc',
+            'Culture & Société' => '#6709dc',
             'International' => '#0457d3',
             'Sport' => '#059669',
             'Interviews' => '#2b3a6c',
@@ -50,6 +50,7 @@ if (! function_exists('category_normalize')) {
 
         return match ($cat) {
             'Opinions', 'Opinion' => 'Décryptage',
+            'Société' => 'Culture & Société',
             default => $cat,
         };
     }
@@ -76,7 +77,7 @@ if (! function_exists('chrononews_category_slugs')) {
             'Économie' => 'economie',
             'Justice & Sécurité' => 'justice-securite',
             'Développement & Infrastructures' => 'developpement-infrastructures',
-            'Société' => 'societe',
+            'Culture & Société' => 'culture-societe',
             'International' => 'international',
             'Sport' => 'sport',
             'Interviews' => 'interviews',
@@ -106,6 +107,10 @@ if (! function_exists('category_from_slug')) {
         $bySlug = array_flip(chrononews_category_slugs());
         if (isset($bySlug[$segment])) {
             return $bySlug[$segment];
+        }
+
+        if ($segment === 'societe') {
+            return 'Culture & Société';
         }
 
         if ($segment === 'opinions') {
@@ -156,7 +161,7 @@ if (! function_exists('chrononews_category_descriptions')) {
             'Économie' => 'Économie, finances et marchés au cœur de l\'information.',
             'Justice & Sécurité' => 'Faits judiciaires, sécurité publique et ordre social.',
             'Développement & Infrastructures' => 'Grands projets, travaux publics et aménagement du territoire.',
-            'Société' => 'Faits de société, culture et vie quotidienne.',
+            'Culture & Société' => 'Culture, faits de société et vie quotidienne.',
             'International' => 'Actualité internationale et relations extérieures.',
             'Sport' => 'Résultats, compétitions et actualité sportive.',
             'Interviews' => 'Entretiens exclusifs avec les acteurs de l\'actualité.',

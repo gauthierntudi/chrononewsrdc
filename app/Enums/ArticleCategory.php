@@ -10,7 +10,7 @@ enum ArticleCategory: string
     case Economy = 'Économie';
     case JusticeSecurity = 'Justice & Sécurité';
     case DevelopmentInfra = 'Développement & Infrastructures';
-    case Society = 'Société';
+    case Society = 'Culture & Société';
     case International = 'International';
     case Sport = 'Sport';
     case Interviews = 'Interviews';

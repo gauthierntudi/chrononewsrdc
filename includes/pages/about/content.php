@@ -40,7 +40,7 @@
 
     <h3>Nos rubriques</h3>
     <p>
-        Actualités, Institutions, Politique, Économie, Justice &amp; Sécurité, Développement &amp; Infrastructures, Société, International, Sport, Interviews et Décryptage : Chrono News structure son offre éditoriale pour vous permettre de suivre l’essentiel, rubrique par rubrique.
+        Actualités, Institutions, Politique, Économie, Justice &amp; Sécurité, Développement &amp; Infrastructures, Culture &amp; Société, International, Sport, Interviews et Décryptage : Chrono News structure son offre éditoriale pour vous permettre de suivre l’essentiel, rubrique par rubrique.
     </p>
     
     <h3>Notre vision</h3>

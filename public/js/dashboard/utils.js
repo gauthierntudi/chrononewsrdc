@@ -252,9 +252,10 @@
                 Economie: 'Économie',
                 "Int'l": 'International',
                 'Int\u2019l': 'International',
-                Portrait: 'Société',
+                Portrait: 'Culture & Société',
                 Entreprise: 'Institutions',
-                Events: 'Société',
+                Events: 'Culture & Société',
+                Société: 'Culture & Société',
             };
 
             return legacy[cat] || cat;
@@ -269,7 +270,7 @@
                 'Économie': 'color-4',
                 'Justice & Sécurité': 'color-5',
                 'Développement & Infrastructures': 'color-6',
-                'Société': 'color-7',
+                'Culture & Société': 'color-7',
                 'International': 'color-8',
                 'Sport': 'color-9',
                 'Interviews': 'color-10',

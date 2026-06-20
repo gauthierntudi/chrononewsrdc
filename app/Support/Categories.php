@@ -13,7 +13,7 @@ final class Categories
         return config('chrononews.article.categories', [
             'Actualités', 'Institutions', 'Politique', 'Économie',
             'Justice & Sécurité', 'Développement & Infrastructures',
-            'Société', 'International', 'Sport', 'Interviews', 'Décryptage',
+            'Culture & Société', 'International', 'Sport', 'Interviews', 'Décryptage',
         ]);
     }
 
@@ -35,7 +35,7 @@ final class Categories
             'Économie' => 'economie',
             'Justice & Sécurité' => 'justice-securite',
             'Développement & Infrastructures' => 'developpement-infrastructures',
-            'Société' => 'societe',
+            'Culture & Société' => 'culture-societe',
             'International' => 'international',
             'Sport' => 'sport',
             'Interviews' => 'interviews',
@@ -53,6 +53,10 @@ final class Categories
         $bySlug = array_flip(self::slugs());
         if (isset($bySlug[$segment])) {
             return $bySlug[$segment];
+        }
+
+        if ($segment === 'societe') {
+            return 'Culture & Société';
         }
 
         if ($segment === 'opinions') {
@@ -74,6 +78,7 @@ final class Categories
 
         return match ($category) {
             'Opinions', 'Opinion' => 'Décryptage',
+            'Société' => 'Culture & Société',
             default => $category,
         };
     }
@@ -88,7 +93,7 @@ final class Categories
             'Économie' => '#ce5105',
             'Justice & Sécurité' => '#434547',
             'Développement & Infrastructures' => '#09b960',
-            'Société' => '#6709dc',
+            'Culture & Société' => '#6709dc',
             'International' => '#0457d3',
             'Sport' => '#059669',
             'Interviews' => '#2b3a6c',
@@ -125,7 +130,7 @@ final class Categories
             'Économie' => 'Économie, finance et marchés.',
             'Justice & Sécurité' => 'Justice, sécurité et ordre public.',
             'Développement & Infrastructures' => 'Projets, infrastructures et développement.',
-            'Société' => 'Vie sociale, culture et communautés.',
+            'Culture & Société' => 'Culture, faits de société et vie quotidienne.',
             'International' => 'Actualité internationale et relations extérieures.',
             'Sport' => 'Sport et compétitions.',
             'Interviews' => 'Entretiens et portraits.',

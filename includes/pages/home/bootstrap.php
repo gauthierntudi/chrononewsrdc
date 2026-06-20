@@ -432,14 +432,14 @@ if ($avoidDuplicatesEnergy && function_exists('add_exclude_ids')) {
 
 
 // --- Bloc Events ---
-$catCulture = 'Société';
+$catCulture = 'Culture & Société';
 $uCatCulture = category_url($catCulture);
 
 // ⚠️ éviter conflit avec $avoidDuplicates global
 $avoidDuplicatesEvents = false;
 
 $whereNotIn = '';
-$params = [':cat' => $catCulture];
+$params = [':cat' => $catCulture, ':catLegacy' => 'Société'];
 
 if ($avoidDuplicatesEvents && !empty($excludeHomeIds)) {
     $ph = [];
@@ -460,7 +460,7 @@ LEFT JOIN users u ON u.id = a.id_redaction
 WHERE a.status = 1
   AND a.statut_validation = 'valide'
   AND a.statut_paiement IN ('paye','gratuit')
-  AND TRIM(a.categorie) = :cat
+  AND TRIM(a.categorie) IN (:cat, :catLegacy)
   $whereNotIn
 ORDER BY COALESCE(a.date_add, a.created_at) DESC
 LIMIT 5

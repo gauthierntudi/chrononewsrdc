@@ -27,7 +27,7 @@
     function setupEventListeners() {
         document.getElementById('emailForm').addEventListener('submit', handleEmailSubmit);
         document.getElementById('otpForm').addEventListener('submit', handleOTPSubmit);
-        document.getElementById('toggleMode')?.addEventListener('click', toggleMode);
+        document.getElementById('toggleMode')?.addEventListener('click', () => toggleMode());
         document.getElementById('backToEmail').addEventListener('click', backToEmail);
         document.getElementById('resendOtp')?.addEventListener('click', handleResendOtp);
     }
@@ -161,8 +161,15 @@
         }
     }
 
-    function toggleMode(forceRegister = false) {
-        isRegisterMode = forceRegister ? true : !isRegisterMode;
+    function toggleMode(forceRegister) {
+        if (forceRegister === true) {
+            isRegisterMode = true;
+        } else if (forceRegister === false) {
+            isRegisterMode = false;
+        } else {
+            isRegisterMode = !isRegisterMode;
+        }
+
         const nameGroup = document.getElementById('nameGroup');
         const toggleBtn = document.getElementById('toggleMode');
         const submitBtn = document.getElementById('submitBtn');
@@ -175,6 +182,7 @@
             title.textContent = authAction === 'buy' ? 'Créer un compte pour acheter' : 'Inscription';
         } else {
             nameGroup.style.display = 'none';
+            document.getElementById('nom')?.value = '';
             toggleBtn.innerHTML = authAction === 'buy'
                 ? '<ion-icon name="person-add-outline"></ion-icon> Pas encore de compte ? Inscrivez-vous pour acheter'
                 : '<ion-icon name="person-add-outline"></ion-icon> Nouveau compte ? Inscrivez-vous';

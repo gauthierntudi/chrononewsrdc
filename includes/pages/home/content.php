@@ -1764,7 +1764,7 @@ if ($mainVideo):
          <div class="jlcus_sect_inner">
             <h2 class="jl-heading-text">
                <span class="jl_ttw">
-                  <span>Société</span>
+                  <span><?= htmlspecialchars($catCulture) ?></span>
                </span>                                          
             </h2>
             <p class="jl_sct_bt">
