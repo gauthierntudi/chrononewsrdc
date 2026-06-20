@@ -149,7 +149,12 @@ class PublicationAjaxController extends Controller
         } catch (\Throwable $exception) {
             report($exception);
 
-            return response()->json(['ok' => false, 'message' => 'Erreur interne.'], 500);
+            $message = 'Erreur interne.';
+            if (config('app.debug')) {
+                $message = $exception->getMessage();
+            }
+
+            return response()->json(['ok' => false, 'message' => $message], 500);
         }
     }
 }
