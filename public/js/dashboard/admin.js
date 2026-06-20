@@ -2061,6 +2061,12 @@
         const source = subscriber.source || '—';
         const isActive = subscriber.status === 'active';
         const createdAt = subscriber.created_at ? U.formatDateShort(subscriber.created_at) : '—';
+        const emailLocal = email.includes('@') ? email.split('@')[0] : email;
+        const displayName = emailLocal
+            .replace(/[._-]+/g, ' ')
+            .replace(/\b\w/g, (char) => char.toUpperCase())
+            .trim() || email;
+        const initials = U.getInitials(emailLocal.replace(/[._-]+/g, ' '));
 
         const toggleBtn = isActive
             ? `<button type="button" class="action-btn-modern delete btn-newsletter-toggle" data-id="${subscriber.id}" data-email="${U.escapeHtml(email)}" data-active="1" title="Désactiver">${U.icon('ban')}</button>`
@@ -2070,8 +2076,12 @@
             <tr class="users-row">
                 <td>
                     <div class="users-identity">
+                        <div class="users-avatar-wrap">
+                            <div class="users-avatar users-avatar--initials" aria-hidden="true">${initials}</div>
+                        </div>
                         <div class="users-identity__info">
-                            <strong class="users-identity__name">${U.escapeHtml(email)}</strong>
+                            <strong class="users-identity__name">${U.escapeHtml(displayName)}</strong>
+                            <span class="users-identity__email">${U.escapeHtml(email)}</span>
                         </div>
                     </div>
                 </td>

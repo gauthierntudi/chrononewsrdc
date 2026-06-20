@@ -1941,6 +1941,19 @@ body.modal-open {
     border: 2px solid #e2e8f0;
 }
 
+.users-avatar--initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: var(--cn-blue);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-color: #bfdbfe;
+    user-select: none;
+}
+
 .users-avatar-wrap--online::after {
     content: '';
     position: absolute;
