@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'publication/ajax/track-ad',
             'publication/ajax/track_ad',
             'publication/ajax/track_ad.php',
+            'publication/ajax/newsletter-subscribe',
+            'publication/ajax/newsletter_subscribe.php',
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('login'));

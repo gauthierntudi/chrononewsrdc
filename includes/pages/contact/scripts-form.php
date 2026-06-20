@@ -81,7 +81,7 @@
     e.stopPropagation();
 
     var $form = $(this);
-    var action = $form.data('action') || '/publication/ajax/newsletter_subscribe.php';
+    var action = $form.data('action') || '/publication/ajax/newsletter-subscribe';
 
     // Serialize + source
     var payload = $form.serializeArray();

@@ -94,6 +94,7 @@
 (function () {
   const GET_AD_URL = <?= json_encode(cn_ajax_url('get_ad'), JSON_UNESCAPED_SLASHES) ?>;
   const TRACK_URL  = <?= json_encode(cn_ajax_url('track_ad'), JSON_UNESCAPED_SLASHES) ?>;
+  const NL_SUBSCRIBE_URL = <?= json_encode(cn_ajax_url('newsletter_subscribe'), JSON_UNESCAPED_SLASHES) ?>;
   const DEFAULT_ROTATE_MS = 20000;
 
   // Tes dimensions (source de vérité front)
@@ -374,7 +375,7 @@
     e.stopPropagation();
 
     var $form = $(this);
-    var action = $form.data('action') || '/publication/ajax/newsletter_subscribe.php';
+    var action = $form.data('action') || (typeof NL_SUBSCRIBE_URL !== 'undefined' ? NL_SUBSCRIBE_URL : '/publication/ajax/newsletter-subscribe');
 
     // Serialize + source
     var payload = $form.serializeArray();

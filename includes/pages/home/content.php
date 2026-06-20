@@ -1176,17 +1176,17 @@ if ($mainVideo):
                </div>
 
                 <?php
-
-                    if (empty($_SESSION['csrf_newsletter'])) $_SESSION['csrf_newsletter'] = bin2hex(random_bytes(16));
+                    require_once dirname(__DIR__, 2).'/front-asset-paths.php';
+                    $newsletterAction = cn_ajax_url('newsletter_subscribe');
                 ?>
                
                 <form action="#wpcf7-f20925-p13574-o1"
                   method="post"
                   class="wpcf7-form init js-nl-form"
-                  data-action="/publication/ajax/newsletter_subscribe.php"
+                  data-action="<?= htmlspecialchars($newsletterAction) ?>"
                   data-source="home_newsletter">
 
-                <input type="hidden" name="csrf" value="<?= htmlspecialchars($_SESSION['csrf_newsletter']) ?>">
+                <input type="hidden" name="_token" value="<?= htmlspecialchars(csrf_token()) ?>">
                   <fieldset class="hidden-fields-container">
                      <input type="hidden" name="localisation" value="en_US" />
                      <input type="hidden" name="data_hash" value="" />

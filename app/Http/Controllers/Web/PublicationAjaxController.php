@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Services\Advertisement\FrontAdvertisementService;
 use App\Services\Media\MediaUrlService;
+use App\Services\Newsletter\NewsletterSubscriptionService;
 use App\Support\FrontHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PublicationAjaxController extends Controller
 {
     public function __construct(
         private readonly FrontAdvertisementService $ads,
         private readonly MediaUrlService $mediaUrls,
+        private readonly NewsletterSubscriptionService $newsletter,
     ) {}
 
     public function getAd(Request $request): JsonResponse
@@ -120,5 +123,33 @@ class PublicationAjaxController extends Controller
         })->values()->all();
 
         return response()->json(['items' => $items]);
+    }
+
+    public function newsletterSubscribe(Request $request): JsonResponse
+    {
+        if (! $request->isMethod('post')) {
+            return response()->json(['ok' => false, 'message' => 'Method not allowed'], 405);
+        }
+
+        try {
+            $result = $this->newsletter->subscribe(
+                email: (string) $request->input('your-email', ''),
+                consent: $request->input('your-consent') === '1'
+                    || $request->boolean('your-consent'),
+                source: $request->input('source'),
+                ipAddress: $request->ip(),
+                userAgent: $request->userAgent(),
+            );
+
+            return response()->json($result);
+        } catch (ValidationException $exception) {
+            $message = collect($exception->errors())->flatten()->first() ?: 'Données invalides.';
+
+            return response()->json(['ok' => false, 'message' => $message], 422);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return response()->json(['ok' => false, 'message' => 'Erreur interne.'], 500);
+        }
     }
 }

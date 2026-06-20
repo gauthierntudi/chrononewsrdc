@@ -67,12 +67,16 @@ Route::get('/uploads/{path}', [MediaRedirectController::class, 'uploads'])
 Route::get('/publication/ajax/get-ad', [PublicationAjaxController::class, 'getAd']);
 Route::get('/publication/ajax/live-search', [PublicationAjaxController::class, 'liveSearch']);
 Route::post('/publication/ajax/track-ad', [PublicationAjaxController::class, 'trackAd']);
+Route::post('/publication/ajax/newsletter-subscribe', [PublicationAjaxController::class, 'newsletterSubscribe'])
+    ->middleware('throttle:10,1');
 
 /** Anciennes URLs (.php) — compat laravel.cloud */
 Route::get('/publication/ajax/get_ad.php', [PublicationAjaxController::class, 'getAd']);
 Route::post('/publication/ajax/track_ad', [PublicationAjaxController::class, 'trackAd']);
 Route::post('/publication/ajax/track_ad.php', [PublicationAjaxController::class, 'trackAd']);
 Route::get('/publication/ajax/live-search.php', [PublicationAjaxController::class, 'liveSearch']);
+Route::post('/publication/ajax/newsletter_subscribe.php', [PublicationAjaxController::class, 'newsletterSubscribe'])
+    ->middleware('throttle:10,1');
 
 /*
 |--------------------------------------------------------------------------

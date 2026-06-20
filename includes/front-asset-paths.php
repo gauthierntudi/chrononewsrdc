@@ -47,6 +47,7 @@ if (! function_exists('cn_ajax_url')) {
             'get_ad' => '/publication/ajax/get-ad',
             'live_search' => '/publication/ajax/live-search',
             'track_ad' => '/publication/ajax/track-ad',
+            'newsletter_subscribe' => '/publication/ajax/newsletter-subscribe',
             'og_image' => '/og-image',
             default => '/publication/ajax/'.ltrim($endpoint, '/'),
         };

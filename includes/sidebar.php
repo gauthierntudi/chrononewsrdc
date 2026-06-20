@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/categories.php';
+require_once __DIR__.'/front-asset-paths.php';
 
 // --- Top 10 hebdo -> afficher 3 à chaque reload (rotation) ---
 // IMPORTANT: session_start() doit être fait dans index.php AVANT tout output
@@ -296,10 +297,10 @@ if ($count > 0) {
                <form action="#wpcf7-f20925-p13574-o2"
                   method="post"
                   class="wpcf7-form init js-nl-form"
-                  data-action="/publication/ajax/newsletter_subscribe.php"
+                  data-action="<?= htmlspecialchars(cn_ajax_url('newsletter_subscribe')) ?>"
                   data-source="sidebar_newsletter">
                   
-                  <input type="hidden" name="csrf" value="<?= htmlspecialchars($_SESSION['csrf_newsletter'] ?? '') ?>">
+                  <input type="hidden" name="_token" value="<?= htmlspecialchars(csrf_token()) ?>">
                   <fieldset class="hidden-fields-container">
                      <input type="hidden" name="localisation" value="en_US" />
                      <input type="hidden" name="data_hash" value="" />
