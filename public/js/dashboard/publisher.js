@@ -513,7 +513,7 @@
         document.getElementById('pageTitle').textContent = 'Modifier l\'article';
         document.getElementById('articleTitle').value = decodeHtml(article.title || '');
         document.getElementById('articleDescription').value = article.content || '';
-        document.getElementById('articleCategory').value = article.category || '';
+        document.getElementById('articleCategory').value = U.normalizeCategory(article.category || article.categorie || '');
 
         const dateValue = article.published_at || article.created_at;
         if (dateValue && publishDatePicker) {
