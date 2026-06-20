@@ -182,7 +182,8 @@
             title.textContent = authAction === 'buy' ? 'Créer un compte pour acheter' : 'Inscription';
         } else {
             nameGroup.style.display = 'none';
-            document.getElementById('nom')?.value = '';
+            const nomInput = document.getElementById('nom');
+            if (nomInput) nomInput.value = '';
             toggleBtn.innerHTML = authAction === 'buy'
                 ? '<ion-icon name="person-add-outline"></ion-icon> Pas encore de compte ? Inscrivez-vous pour acheter'
                 : '<ion-icon name="person-add-outline"></ion-icon> Nouveau compte ? Inscrivez-vous';

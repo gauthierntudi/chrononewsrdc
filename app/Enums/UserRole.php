@@ -108,4 +108,9 @@ enum UserRole: string
     {
         return $this === self::SuperAdmin;
     }
+
+    public function canManageNewsletter(): bool
+    {
+        return $this === self::SuperAdmin;
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\AdvertisementController;
 use App\Http\Controllers\Api\V1\AdminArticleController;
 use App\Http\Controllers\Api\V1\AdminDashboardController;
 use App\Http\Controllers\Api\V1\AdminHomeVideoController;
+use App\Http\Controllers\Api\V1\AdminNewsletterController;
 use App\Http\Controllers\Api\V1\AdminPaymentController;
 use App\Http\Controllers\Api\V1\AdminSettingController;
 use App\Http\Controllers\Api\V1\AdminSubscriptionPlanController;
@@ -124,6 +125,10 @@ Route::prefix('v1')->group(function (): void {
         Route::post('users/toggle-status', [AdminUserController::class, 'toggleStatus']);
         Route::put('users/{user}/role', [AdminUserController::class, 'updateRole'])->whereNumber('user');
         Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->whereNumber('user');
+
+        Route::get('newsletter-subscribers', [AdminNewsletterController::class, 'index']);
+        Route::post('newsletter-subscribers/{subscriber}/toggle-status', [AdminNewsletterController::class, 'toggleStatus'])->whereNumber('subscriber');
+        Route::delete('newsletter-subscribers/{subscriber}', [AdminNewsletterController::class, 'destroy'])->whereNumber('subscriber');
     });
 
     Route::prefix('webhooks')->group(function (): void {

@@ -31,34 +31,127 @@
     <br>
 
     <p class="has-drop-cap">
-        <strong>Chrono News</strong> est un média d’information en ligne consacré à l’actualité en général : politique, économie, société, institutions, justice, sport, international et bien plus encore. Notre devise — <em>L'info qui n'attend pas</em> — reflète notre engagement à informer rapidement, avec rigueur et clarté.
-    </p>
-    
-    <p>
-        Nous couvrons les faits qui comptent, au quotidien, pour un public exigeant et curieux. Analyses, reportages, interviews et décryptages viennent compléter notre fil d’actualité afin de donner du contexte et de la profondeur à l’information.
+        <strong>ChronoNews.cd</strong> est un média numérique d’information générale et institutionnelle, spécialisé dans la couverture de l’actualité nationale en République Démocratique du Congo ainsi que de l’actualité internationale. Notre mission est de fournir une information fiable, rapide et crédible, traitée avec professionnalisme et rigueur.
     </p>
 
-    <h3>Nos rubriques</h3>
     <p>
-        Actualités, Institutions, Politique, Économie, Justice &amp; Sécurité, Développement &amp; Infrastructures, Culture &amp; Société, International, Sport, Interviews et Décryptage : Chrono News structure son offre éditoriale pour vous permettre de suivre l’essentiel, rubrique par rubrique.
-    </p>
-    
-    <h3>Notre vision</h3>
-    <p>
-        Devenir une référence de l’information générale, en offrant un regard indépendant sur les événements qui façonnent notre monde — localement, nationalement et à l’international.
+        Nous couvrons, au quotidien, les faits qui comptent pour un public exigeant et curieux. Analyses, reportages, interviews et décryptages viennent enrichir notre fil d’actualité afin d’apporter davantage de contexte et de profondeur à l’information.
     </p>
 
-    <h3>Nos valeurs</h3>
+    <p>
+        Notre ligne éditoriale couvre plusieurs secteurs clés : la politique, l’économie, les infrastructures, la santé, l’éducation, la culture, les entreprises, le leadership, les initiatives sociales ainsi que les grands projets nationaux. À travers cette approche transversale, ChronoNews.cd offre une vision globale du développement du pays et des enjeux qui façonnent son avenir.
+    </p>
+
+    <h3>Une information centrée sur les institutions et l’action publique</h3>
+    <p>Le cœur éditorial de ChronoNews.cd est principalement orienté vers :</p>
     <ul class="wp-block-list">
-        <li><strong>Crédibilité :</strong> Une information vérifiée, rigoureuse et indépendante.</li>
-        <li><strong>Réactivité :</strong> Couvrir l’actualité au plus près des événements, sans sacrifier la qualité.</li>
-        <li><strong>Clarté :</strong> Rendre l’information accessible et compréhensible pour tous.</li>
-        <li><strong>Pluralité :</strong> Ouvrir le débat et donner la parole à des regards divers sur l’actualité.</li>
+        <li>Les institutions publiques ;</li>
+        <li>Les ministères et administrations ;</li>
+        <li>Les gouvernorats ;</li>
+        <li>Les entreprises publiques ;</li>
+        <li>Les organisations partenaires ;</li>
+        <li>Les réformes gouvernementales ;</li>
+        <li>Les politiques publiques ;</li>
+        <li>Les actions et initiatives des décideurs.</li>
+    </ul>
+    <p>
+        Notre ambition est de rendre l’information institutionnelle plus accessible, plus claire et plus proche des citoyens. À ce titre, ChronoNews.cd s’engage à :
+    </p>
+    <ul class="wp-block-list">
+        <li>Expliquer les décisions et les projets publics ;</li>
+        <li>Valoriser les réalisations institutionnelles ;</li>
+        <li>Renforcer le lien entre les institutions et la population ;</li>
+        <li>Promouvoir la gouvernance, la transparence et le développement.</li>
     </ul>
 
+    <h3>Une plateforme éditoriale moderne et stratégique</h3>
     <p>
-        Pour toute question, proposition éditoriale ou partenariat, contactez-nous via notre page dédiée ou sur nos réseaux sociaux.
+        Dans un contexte où l’information institutionnelle doit être davantage comprise et valorisée, ChronoNews.cd se positionne comme une plateforme éditoriale moderne dédiée à la gouvernance, au leadership public et à la promotion des actions institutionnelles en République Démocratique du Congo.
     </p>
+    <p>
+        Le média met en lumière les initiatives, les réformes, les projets et les réalisations portés par les institutions publiques, les autorités administratives ainsi que les acteurs engagés dans le développement national. Grâce à une approche professionnelle, pédagogique et constructive, il ambitionne de créer un véritable pont entre les décideurs et les citoyens en expliquant les politiques publiques, leurs objectifs et leurs impacts concrets sur la population.
+    </p>
+    <p>
+        Plus qu’un simple support d’information, ChronoNews.cd se veut également un véritable outil de communication institutionnelle et de valorisation de l’action publique. Le média offre aux institutions, aux entreprises publiques, aux entreprises privées et aux partenaires un espace crédible pour présenter leur vision, leurs résultats et leurs ambitions de transformation.
+    </p>
+
+    <h3>Une présence digitale dynamique</h3>
+    <p>En complément de sa plateforme numérique, ChronoNews.cd développe une présence digitale forte à travers :</p>
+    <ul class="wp-block-list">
+        <li>Un site web d’information générale et institutionnelle ;</li>
+        <li>Des plateformes sur les réseaux sociaux (Facebook, Instagram, TikTok, X et LinkedIn) ;</li>
+        <li>Des contenus multimédias innovants.</li>
+    </ul>
+    <p>
+        Cette stratégie digitale permet d’assurer une visibilité permanente des actions institutionnelles, de toucher un public plus large, notamment la jeunesse, et de renforcer l’interaction avec les citoyens, les partenaires et les investisseurs.
+    </p>
+    <p>
+        À travers des reportages, des analyses, des interviews exclusives, des dossiers spéciaux et des contenus visuels de qualité, ChronoNews.cd entend promouvoir une culture de responsabilité, d’excellence, de transparence et de modernité au service du développement national.
+    </p>
+    <p>
+        Porté par une ligne éditoriale professionnelle, positive et innovante, ChronoNews.cd aspire à devenir une référence incontournable de l’information institutionnelle, économique et stratégique en République Démocratique du Congo et en Afrique.
+    </p>
+
+    <h3>Public cible de ChronoNews.cd</h3>
+
+    <h4>1. Les décideurs publics et institutionnels</h4>
+    <p>Cette catégorie comprend :</p>
+    <ul class="wp-block-list">
+        <li>Les membres du Gouvernement ;</li>
+        <li>Les ministres et les cabinets ministériels ;</li>
+        <li>Les parlementaires ;</li>
+        <li>Les gouverneurs et autorités provinciales ;</li>
+        <li>Les administrations publiques ;</li>
+        <li>Les dirigeants d’entreprises publiques.</li>
+    </ul>
+    <p><strong>Pourquoi ?</strong> Parce que notre contenu valorise les politiques publiques, les projets et les actions institutionnelles.</p>
+
+    <h4>2. Les acteurs économiques et le secteur privé</h4>
+    <p>Cette catégorie inclut :</p>
+    <ul class="wp-block-list">
+        <li>Les entrepreneurs ;</li>
+        <li>Les chefs d’entreprise ;</li>
+        <li>Les investisseurs ;</li>
+        <li>Les banques ;</li>
+        <li>Les entreprises privées ;</li>
+        <li>Les chambres de commerce ;</li>
+        <li>Les fédérations professionnelles.</li>
+    </ul>
+    <p><strong>Pourquoi ?</strong> Parce qu’ils s’intéressent au climat économique, aux réformes, aux infrastructures, aux opportunités de développement ainsi qu’aux partenariats public-privé.</p>
+
+    <h4>3. Les organisations nationales et internationales</h4>
+    <p>Notamment :</p>
+    <ul class="wp-block-list">
+        <li>Les ONG ;</li>
+        <li>Les agences des Nations Unies ;</li>
+        <li>Les institutions régionales ;</li>
+        <li>Les partenaires techniques et financiers ;</li>
+        <li>Les organisations de développement.</li>
+    </ul>
+    <p><strong>Pourquoi ?</strong> Parce qu’elles suivent les questions liées à la gouvernance, aux politiques publiques, aux projets de développement ainsi qu’à leur impact social.</p>
+
+    <h4>4. Les jeunes leaders et la jeunesse urbaine</h4>
+    <p>Cette catégorie comprend :</p>
+    <ul class="wp-block-list">
+        <li>Les étudiants ;</li>
+        <li>Les jeunes professionnels ;</li>
+        <li>Les jeunes entrepreneurs ;</li>
+        <li>Les leaders associatifs ;</li>
+        <li>Les porteurs de projets ;</li>
+        <li>Les jeunes intéressés par l’actualité nationale.</li>
+    </ul>
+    <p><strong>Pourquoi ?</strong> Parce que notre approche pédagogique rend l’information institutionnelle plus accessible à la nouvelle génération.</p>
+
+    <h4>5. Les citoyens intéressés par l’actualité et le développement</h4>
+    <p>Notre audience grand public qualifiée comprend :</p>
+    <ul class="wp-block-list">
+        <li>Les lecteurs intéressés par les politiques publiques ;</li>
+        <li>Les cadres ;</li>
+        <li>Les enseignants ;</li>
+        <li>Les professionnels ;</li>
+        <li>Les acteurs de la société civile.</li>
+    </ul>
+    <p><strong>Pourquoi ?</strong> Parce qu’ils recherchent une information sérieuse, constructive et utile.</p>
 
 </div>
 

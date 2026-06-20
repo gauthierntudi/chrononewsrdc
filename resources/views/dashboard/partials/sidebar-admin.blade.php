@@ -50,6 +50,14 @@
             </a>
         </li>
         @endif
+        @if($access['newsletter'])
+        <li>
+            <a href="{{ $adminBase }}?view=newsletter" data-view="newsletter" class="flex items-center px-6 py-3.5 transition-all duration-200 border-l-4 border-transparent group">
+                <i data-lucide="mail" class="lucide-icon text-xl mr-4 sidebar-link-icon transition-colors" aria-hidden="true"></i>
+                <span class="font-medium">Newsletter</span>
+            </a>
+        </li>
+        @endif
         @if($access['globalPayments'])
         <li>
             <a href="{{ $adminBase }}?view=payments" data-view="payments" class="flex items-center px-6 py-3.5 transition-all duration-200 border-l-4 border-transparent group">

@@ -31,6 +31,7 @@ final class DashboardAccess
             'users' => $role->canManageUsers(),
             'settings' => $role->canViewSettings(),
             'settingsEdit' => $role->canManageSettings(),
+            'newsletter' => $role->canManageNewsletter(),
             'publishWithoutValidation' => $role->autoValidatesArticles(),
             'publishForFree' => $role->publishesForFree(),
         ];

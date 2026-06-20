@@ -33,6 +33,12 @@
     let usersSearch = '';
     let usersSearchTimeout = null;
     let usersFiltersReady = false;
+    let newsletterPage = 1;
+    let newsletterPerPage = 10;
+    let newsletterSearch = '';
+    let newsletterStatus = 'all';
+    let newsletterSearchTimeout = null;
+    let newsletterFiltersReady = false;
     let userAvatarCropper = null;
     let userAvatarCropperFile = null;
     let userEditOriginalCover = '';
@@ -84,6 +90,7 @@
             if (view === 'validation') loadPending({ skipIfCached: true });
             if (view === 'all-articles') loadAllArticles({ skipIfCached: true });
             if (view === 'users') loadUsers({ skipIfCached: true });
+            if (view === 'newsletter') loadNewsletter({ skipIfCached: true });
             if (view === 'payments') loadPayments({ skipIfCached: true });
             if (view === 'ads') loadAds({ skipIfCached: true });
             if (view === 'home-video') loadHomeVideos({ skipIfCached: true });
@@ -114,6 +121,7 @@
         });
         setupAllArticlesFilters();
         setupUsersFilters();
+        setupNewsletterFilters();
         setupPaymentsFilters();
         setupAdsFilters();
         setupHomeVideoModal();
@@ -1908,6 +1916,254 @@
             usersPage = 1;
             loadUsers();
         });
+    }
+
+    async function loadNewsletter({ skipIfCached = false } = {}) {
+        const container = document.getElementById('newsletterTable');
+        const pagination = document.getElementById('newsletterPagination');
+        if (!container || !cfg.isSuperAdmin) return;
+        if (skipIfCached && isViewLoaded('newsletter')) return;
+
+        container.innerHTML = U.loadingHtml();
+        if (pagination) pagination.innerHTML = '';
+
+        try {
+            const params = new URLSearchParams({
+                page: String(newsletterPage),
+                per_page: String(newsletterPerPage),
+            });
+            if (newsletterSearch) params.set('search', newsletterSearch);
+            if (newsletterStatus && newsletterStatus !== 'all') params.set('status', newsletterStatus);
+
+            const data = await U.api(`${cfg.apiBase}/admin/newsletter-subscribers?${params.toString()}`);
+            const items = data.data?.subscribers || [];
+            const stats = data.data?.stats || {};
+            const total = Number(data.data?.total ?? 0);
+            const totalPages = Number(data.data?.totalPages ?? 1);
+
+            updateNewsletterCountLabel(total);
+            renderNewsletterStats(stats);
+
+            if (!items.length) {
+                container.innerHTML = `
+                    <div class="pending-empty users-empty">
+                        <div class="pending-empty__icon" style="background:#eff6ff;color:#1E5EFF;">
+                            ${U.icon('mail')}
+                        </div>
+                        <h3>Aucun abonné trouvé</h3>
+                        <p>${newsletterSearch ? 'Essayez une autre recherche.' : 'Aucune inscription newsletter pour le moment.'}</p>
+                    </div>
+                `;
+                U.refreshIcons(container);
+                markViewLoaded('newsletter');
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="pending-table-wrap users-table-wrap">
+                    <table class="pending-table users-table">
+                        <thead>
+                            <tr>
+                                <th>E-mail</th>
+                                <th>Statut</th>
+                                <th>Source</th>
+                                <th>Inscrit le</th>
+                                <th class="pending-col-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map((subscriber) => renderNewsletterRow(subscriber)).join('')}
+                        </tbody>
+                    </table>
+                    <div class="users-table-footer">
+                        <span>${total} abonné${total > 1 ? 's' : ''} au total</span>
+                    </div>
+                </div>
+            `;
+
+            bindNewsletterActions(container);
+            renderNewsletterPagination(totalPages);
+            U.refreshIcons(container);
+            markViewLoaded('newsletter');
+        } catch (error) {
+            container.innerHTML = `<div class="empty-state">${U.icon('circle-alert')}<p>${U.escapeHtml(error.message)}</p></div>`;
+            U.refreshIcons(container);
+        }
+    }
+
+    function updateNewsletterCountLabel(count) {
+        const label = document.getElementById('newsletterCountLabel');
+        if (!label) return;
+        label.textContent = count === 1 ? '1 abonné' : `${count} abonnés`;
+        label.className = count ? 'pending-count-badge' : 'pending-count-badge pending-count-badge--empty';
+    }
+
+    function renderNewsletterStats(stats) {
+        const totalEl = document.getElementById('newsletterStatTotal');
+        const activeEl = document.getElementById('newsletterStatActive');
+        const inactiveEl = document.getElementById('newsletterStatInactive');
+        if (totalEl) totalEl.textContent = String(stats.total ?? 0);
+        if (activeEl) activeEl.textContent = String(stats.active ?? 0);
+        if (inactiveEl) inactiveEl.textContent = String(stats.inactive ?? 0);
+    }
+
+    function renderNewsletterRow(subscriber) {
+        const email = subscriber.email || '—';
+        const source = subscriber.source || '—';
+        const isActive = subscriber.status === 'active';
+        const createdAt = subscriber.created_at ? U.formatDateShort(subscriber.created_at) : '—';
+
+        const toggleBtn = isActive
+            ? `<button type="button" class="action-btn-modern delete btn-newsletter-toggle" data-id="${subscriber.id}" data-email="${U.escapeHtml(email)}" data-active="1" title="Désactiver">${U.icon('ban')}</button>`
+            : `<button type="button" class="action-btn-modern validate btn-newsletter-toggle" data-id="${subscriber.id}" data-email="${U.escapeHtml(email)}" data-active="0" title="Réactiver">${U.icon('circle-check')}</button>`;
+
+        return `
+            <tr class="users-row">
+                <td>
+                    <div class="users-identity">
+                        <div class="users-identity__info">
+                            <strong class="users-identity__name">${U.escapeHtml(email)}</strong>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="status-badge ${isActive ? 'badge-success' : 'badge-danger'}">${isActive ? 'Actif' : 'Inactif'}</span>
+                </td>
+                <td><span class="users-contact">${U.escapeHtml(source)}</span></td>
+                <td><span class="pending-date">${U.icon('calendar')}${createdAt}</span></td>
+                <td class="pending-col-actions">
+                    <div class="pending-actions">
+                        ${toggleBtn}
+                        <button type="button" class="action-btn-modern delete btn-newsletter-delete" data-id="${subscriber.id}" data-email="${U.escapeHtml(email)}" title="Supprimer">${U.icon('trash-2')}</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+
+    function bindNewsletterActions(container) {
+        container.querySelectorAll('.btn-newsletter-toggle').forEach((btn) => {
+            btn.addEventListener('click', () => toggleNewsletterStatus(btn.dataset.id, btn.dataset.email, btn.dataset.active === '1'));
+        });
+
+        container.querySelectorAll('.btn-newsletter-delete').forEach((btn) => {
+            btn.addEventListener('click', () => deleteNewsletterSubscriber(btn.dataset.id, btn.dataset.email));
+        });
+    }
+
+    function renderNewsletterPagination(totalPages) {
+        const container = document.getElementById('newsletterPagination');
+        if (!container) return;
+
+        if (totalPages <= 1) {
+            container.innerHTML = '';
+            return;
+        }
+
+        let html = '<div class="pagination-controls">';
+
+        if (newsletterPage > 1) {
+            html += `<button type="button" class="pagination-btn pagination-btn--nav" data-newsletter-page="${newsletterPage - 1}" aria-label="Page précédente">${U.icon('chevron-left')}</button>`;
+        }
+
+        for (let page = 1; page <= totalPages; page += 1) {
+            if (page === 1 || page === totalPages || Math.abs(page - newsletterPage) <= 1) {
+                html += `<button type="button" class="pagination-btn ${page === newsletterPage ? 'active' : ''}" data-newsletter-page="${page}">${page}</button>`;
+            } else if (page === newsletterPage - 2 || page === newsletterPage + 2) {
+                html += '<span class="pagination-ellipsis">…</span>';
+            }
+        }
+
+        if (newsletterPage < totalPages) {
+            html += `<button type="button" class="pagination-btn pagination-btn--nav" data-newsletter-page="${newsletterPage + 1}" aria-label="Page suivante">${U.icon('chevron-right')}</button>`;
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+        U.refreshIcons(container);
+
+        container.querySelectorAll('[data-newsletter-page]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                newsletterPage = Number(btn.dataset.newsletterPage);
+                loadNewsletter();
+            });
+        });
+    }
+
+    function setupNewsletterFilters() {
+        if (newsletterFiltersReady || !cfg.isSuperAdmin) return;
+        newsletterFiltersReady = true;
+
+        document.getElementById('newsletterRefreshBtn')?.addEventListener('click', () => {
+            resetViewLoaded('newsletter');
+            loadNewsletter();
+        });
+
+        document.getElementById('newsletterSearchInput')?.addEventListener('input', (event) => {
+            clearTimeout(newsletterSearchTimeout);
+            newsletterSearchTimeout = setTimeout(() => {
+                newsletterSearch = event.target.value.trim();
+                newsletterPage = 1;
+                loadNewsletter();
+            }, 300);
+        });
+
+        document.getElementById('newsletterStatusSelect')?.addEventListener('change', (event) => {
+            newsletterStatus = event.target.value || 'all';
+            newsletterPage = 1;
+            loadNewsletter();
+        });
+
+        document.getElementById('newsletterPerPageSelect')?.addEventListener('change', (event) => {
+            newsletterPerPage = Number(event.target.value) || 10;
+            newsletterPage = 1;
+            loadNewsletter();
+        });
+    }
+
+    async function toggleNewsletterStatus(subscriberId, email, isActive) {
+        if (!cfg.isSuperAdmin) return;
+
+        const action = isActive ? 'désactiver' : 'réactiver';
+        if (!await U.confirm(`${isActive ? 'Désactiver' : 'Réactiver'} l'abonné « ${email || 'cet e-mail'} » ?`, {
+            confirmText: isActive ? 'Désactiver' : 'Réactiver',
+        })) {
+            return;
+        }
+
+        try {
+            U.showLoader('Mise à jour...');
+            const data = await U.api(`${cfg.apiBase}/admin/newsletter-subscribers/${subscriberId}/toggle-status`, {
+                method: 'POST',
+            });
+            U.hideLoader();
+            U.showToast(data.message || `Abonné ${action}`, 'success');
+            resetViewLoaded('newsletter');
+            await loadNewsletter();
+        } catch (error) {
+            U.hideLoader();
+            U.showToast(error.message, 'error');
+        }
+    }
+
+    async function deleteNewsletterSubscriber(subscriberId, email) {
+        if (!cfg.isSuperAdmin) return;
+
+        if (!await U.confirm(`Supprimer définitivement « ${email || 'cet abonné'} » ?`, { confirmText: 'Supprimer' })) {
+            return;
+        }
+
+        try {
+            U.showLoader('Suppression...');
+            const data = await U.api(`${cfg.apiBase}/admin/newsletter-subscribers/${subscriberId}`, { method: 'DELETE' });
+            U.hideLoader();
+            U.showToast(data.message || 'Abonné supprimé', 'success');
+            resetViewLoaded('newsletter');
+            await loadNewsletter();
+        } catch (error) {
+            U.hideLoader();
+            U.showToast(error.message, 'error');
+        }
     }
 
     async function loadPayments({ skipIfCached = false } = {}) {

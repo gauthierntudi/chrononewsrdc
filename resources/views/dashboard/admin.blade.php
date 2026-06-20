@@ -158,6 +158,61 @@
         <div id="usersPagination" class="pagination"></div>
     </div>
 
+    @if($user->isSuperAdmin())
+    <div id="newsletter-view" class="view">
+        <div class="view-header users-view-header">
+            <div>
+                <h2><i data-lucide="mail" class="lucide-icon" aria-hidden="true"></i> Newsletter</h2>
+                <p class="view-subtitle">Abonnés aux alertes e-mail du site</p>
+            </div>
+            <div class="view-header-actions">
+                <span class="pending-count-badge" id="newsletterCountLabel">—</span>
+                <button type="button" class="btn btn-secondary btn-sm pending-refresh-btn" id="newsletterRefreshBtn" title="Actualiser">
+                    <i data-lucide="refresh-cw" class="lucide-icon" aria-hidden="true"></i>
+                    Actualiser
+                </button>
+            </div>
+        </div>
+
+        <div class="payments-stats-grid" id="newsletterStatsGrid">
+            <div class="payments-stat-card">
+                <span class="payments-stat-card__label">Total</span>
+                <strong class="payments-stat-card__value" id="newsletterStatTotal">—</strong>
+            </div>
+            <div class="payments-stat-card">
+                <span class="payments-stat-card__label">Actifs</span>
+                <strong class="payments-stat-card__value" id="newsletterStatActive">—</strong>
+            </div>
+            <div class="payments-stat-card">
+                <span class="payments-stat-card__label">Inactifs</span>
+                <strong class="payments-stat-card__value" id="newsletterStatInactive">—</strong>
+            </div>
+        </div>
+
+        <div class="all-articles-filters users-filters">
+            <div class="search-box">
+                <i data-lucide="search" class="lucide-icon" aria-hidden="true"></i>
+                <input type="text" id="newsletterSearchInput" placeholder="Rechercher par e-mail ou source…" autocomplete="off">
+            </div>
+            <select id="newsletterStatusSelect" class="per-page-select" aria-label="Filtrer par statut">
+                <option value="all">Tous les statuts</option>
+                <option value="active">Actifs</option>
+                <option value="inactive">Inactifs</option>
+            </select>
+            <select id="newsletterPerPageSelect" class="per-page-select" aria-label="Abonnés par page">
+                <option value="10" selected>10 par page</option>
+                <option value="20">20 par page</option>
+                <option value="50">50 par page</option>
+            </select>
+        </div>
+
+        <div id="newsletterTable" class="users-panel">
+            <div class="loading"><i data-lucide="loader-circle" class="lucide-icon lucide-spin" aria-hidden="true"></i> Chargement...</div>
+        </div>
+        <div id="newsletterPagination" class="pagination"></div>
+    </div>
+    @endif
+
     <div id="payments-view" class="view">
         <div class="view-header payments-view-header">
             <div>
