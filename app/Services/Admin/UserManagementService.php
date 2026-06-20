@@ -233,22 +233,25 @@ class UserManagementService
             ]);
         }
 
-        DB::transaction(function () use ($user): void {
-            if (Schema::hasTable('sessions')) {
-                DB::table('sessions')->where('user_id', $user->id)->delete();
-            }
-
-            $user->subscriptions()->delete();
-            $user->articlePurchases()->delete();
-            $user->advertisements()->delete();
-            $user->payments()->delete();
-            $user->delete();
-        });
+        $this->purgeUserRelatedData($user);
+        $user->delete();
 
         return [
             'success' => true,
             'message' => 'Utilisateur supprimé avec succès',
         ];
+    }
+
+    private function purgeUserRelatedData(User $user): void
+    {
+        if (Schema::hasTable('sessions')) {
+            DB::table('sessions')->where('user_id', $user->id)->delete();
+        }
+
+        $user->subscriptions()->delete();
+        $user->articlePurchases()->delete();
+        $user->advertisements()->delete();
+        $user->payments()->delete();
     }
 
     private function countUserArticles(int $userId): int
