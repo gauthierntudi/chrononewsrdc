@@ -74,4 +74,9 @@ class AdminUserController extends Controller
 
         return response()->json($result);
     }
+
+    public function destroy(Request $request, int $user): JsonResponse
+    {
+        return response()->json($this->users->delete($user, $request->user()));
+    }
 }

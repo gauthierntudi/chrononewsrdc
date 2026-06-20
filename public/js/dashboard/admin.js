@@ -1778,6 +1778,7 @@
             `;
 
         const actionCell = (() => {
+            const isSelf = Number(user.id) === Number(cfg.user?.id);
             const editBtn = cfg.isSuperAdmin
                 ? `<button type="button" class="action-btn-modern btn-user-edit" data-id="${user.id}" title="Modifier">${U.icon('pencil')}</button>`
                 : '';
@@ -1785,8 +1786,11 @@
                 ? `<button type="button" class="action-btn-modern delete btn-user-toggle" data-id="${user.id}" data-name="${U.escapeHtml(name)}" data-active="1" title="Désactiver">${U.icon('ban')}</button>`
                 : `<button type="button" class="action-btn-modern validate btn-user-toggle" data-id="${user.id}" data-name="${U.escapeHtml(name)}" data-active="0" title="Activer">${U.icon('circle-check')}</button>`;
             const lockBtn = `<button type="button" class="action-btn-modern users-action-locked" disabled title="Compte protégé">${U.icon('lock')}</button>`;
+            const deleteBtn = cfg.isSuperAdmin && !isSelf
+                ? `<button type="button" class="action-btn-modern delete btn-user-delete" data-id="${user.id}" data-name="${U.escapeHtml(name)}" data-superadmin="${isSuperAdmin ? '1' : '0'}" title="Supprimer">${U.icon('trash-2')}</button>`
+                : '';
 
-            return `<div class="pending-actions">${editBtn}${isSuperAdmin ? lockBtn : toggleBtn}</div>`;
+            return `<div class="pending-actions">${editBtn}${isSuperAdmin ? lockBtn : toggleBtn}${deleteBtn}</div>`;
         })();
 
         return `
@@ -1831,6 +1835,10 @@
 
         container.querySelectorAll('.btn-user-toggle').forEach((btn) => {
             btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id, btn.dataset.name, btn.dataset.active === '1'));
+        });
+
+        container.querySelectorAll('.btn-user-delete').forEach((btn) => {
+            btn.addEventListener('click', () => deleteUser(btn.dataset.id, btn.dataset.name, btn.dataset.superadmin === '1'));
         });
 
         container.querySelectorAll('.users-role-select').forEach((select) => {
@@ -2695,6 +2703,31 @@
         document.getElementById('adRefuseModal')?.addEventListener('click', (event) => {
             if (event.target.id === 'adRefuseModal') closeAdRefuseModal();
         });
+    }
+
+    async function deleteUser(userId, userName, isTargetSuperAdmin = false) {
+        if (!cfg.isSuperAdmin) return;
+
+        const label = userName || 'cet utilisateur';
+        const message = isTargetSuperAdmin
+            ? `Supprimer définitivement le super administrateur « ${label} » ? Cette action est irréversible.`
+            : `Supprimer définitivement « ${label} » ? Cette action est irréversible.`;
+
+        if (!await U.confirm(message, { confirmText: 'Supprimer' })) {
+            return;
+        }
+
+        try {
+            U.showLoader('Suppression...');
+            const data = await U.api(`${cfg.apiBase}/admin/users/${userId}`, { method: 'DELETE' });
+            U.hideLoader();
+            U.showToast(data.message || 'Utilisateur supprimé', 'success');
+            resetViewLoaded('users');
+            await loadUsers();
+        } catch (error) {
+            U.hideLoader();
+            U.showToast(error.message, 'error');
+        }
     }
 
     async function toggleUserStatus(userId, userName, isActive) {

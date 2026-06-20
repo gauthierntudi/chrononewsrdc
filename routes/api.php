@@ -123,6 +123,7 @@ Route::prefix('v1')->group(function (): void {
         Route::put('users/{user}', [AdminUserController::class, 'update'])->whereNumber('user');
         Route::post('users/toggle-status', [AdminUserController::class, 'toggleStatus']);
         Route::put('users/{user}/role', [AdminUserController::class, 'updateRole'])->whereNumber('user');
+        Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->whereNumber('user');
     });
 
     Route::prefix('webhooks')->group(function (): void {

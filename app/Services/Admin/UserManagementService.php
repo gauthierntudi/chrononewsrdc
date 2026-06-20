@@ -5,6 +5,8 @@ namespace App\Services\Admin;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -206,5 +208,61 @@ class UserManagementService
             'message' => 'Utilisateur mis à jour avec succès',
             'user' => $user->fresh()->toAdminArray(),
         ];
+    }
+
+    public function delete(int $userId, User $actor): array
+    {
+        $user = User::query()->findOrFail($userId);
+
+        if ($actor->id === $user->id) {
+            throw ValidationException::withMessages([
+                'user_id' => ['Vous ne pouvez pas supprimer votre propre compte.'],
+            ]);
+        }
+
+        if ($user->isSuperAdmin() && ! $actor->isSuperAdmin()) {
+            throw ValidationException::withMessages([
+                'user_id' => ['Seul un super administrateur peut supprimer un autre super administrateur.'],
+            ]);
+        }
+
+        $articleCount = $this->countUserArticles($user->id);
+        if ($articleCount > 0) {
+            throw ValidationException::withMessages([
+                'user_id' => ["Cet utilisateur possède {$articleCount} article(s). Supprimez-les d'abord ou désactivez le compte."],
+            ]);
+        }
+
+        DB::transaction(function () use ($user): void {
+            if (Schema::hasTable('sessions')) {
+                DB::table('sessions')->where('user_id', $user->id)->delete();
+            }
+
+            $user->subscriptions()->delete();
+            $user->articlePurchases()->delete();
+            $user->advertisements()->delete();
+            $user->payments()->delete();
+            $user->delete();
+        });
+
+        return [
+            'success' => true,
+            'message' => 'Utilisateur supprimé avec succès',
+        ];
+    }
+
+    private function countUserArticles(int $userId): int
+    {
+        $count = 0;
+
+        if (Schema::hasTable('actualites')) {
+            $count += (int) DB::table('actualites')->where('id_redaction', $userId)->count();
+        }
+
+        if (Schema::hasTable('articles')) {
+            $count += (int) DB::table('articles')->where('user_id', $userId)->count();
+        }
+
+        return $count;
     }
 }
