@@ -2097,6 +2097,60 @@ body.modal-open {
     }
 }
 
+/* ── Newsletter admin ── */
+
+.newsletter-view-header h2 svg.lucide,
+#newsletter-view .view-header h2 svg.lucide {
+    color: var(--cn-blue);
+}
+
+.newsletter-stats-row {
+    margin-bottom: 1.25rem;
+}
+
+.newsletter-stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter-stat-card::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.newsletter-stats-row .stat-card {
+    min-height: 118px;
+}
+
+.newsletter-stat-hint {
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.85;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.newsletter-stats-row .stat-card:first-child .newsletter-stat-hint,
+.newsletter-stats-row .stat-card-blue .newsletter-stat-hint,
+.newsletter-stats-row .stat-card-green .newsletter-stat-hint,
+.newsletter-stats-row .stat-card-red .newsletter-stat-hint,
+.newsletter-stats-row .stat-card-purple .newsletter-stat-hint {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+    .newsletter-stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ── Payments admin ── */
 
 .payments-view-header h2 svg.lucide {

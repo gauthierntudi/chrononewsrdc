@@ -59,20 +59,42 @@ class NewsletterManagementService
         );
     }
 
-    /** @return array{total: int, active: int, inactive: int} */
+    /** @return array{total: int, active: int, inactive: int, this_week: int, this_month: int, active_rate: float} */
     public function stats(): array
     {
         if (! Schema::hasTable(self::TABLE)) {
-            return ['total' => 0, 'active' => 0, 'inactive' => 0];
+            return [
+                'total' => 0,
+                'active' => 0,
+                'inactive' => 0,
+                'this_week' => 0,
+                'this_month' => 0,
+                'active_rate' => 0.0,
+            ];
         }
 
         $total = (int) DB::table(self::TABLE)->count();
         $active = (int) DB::table(self::TABLE)->where('status', 'active')->count();
+        $inactive = max(0, $total - $active);
+
+        $thisWeek = 0;
+        $thisMonth = 0;
+        if (Schema::hasColumn(self::TABLE, 'created_at')) {
+            $thisWeek = (int) DB::table(self::TABLE)
+                ->where('created_at', '>=', now()->startOfWeek())
+                ->count();
+            $thisMonth = (int) DB::table(self::TABLE)
+                ->where('created_at', '>=', now()->startOfMonth())
+                ->count();
+        }
 
         return [
             'total' => $total,
             'active' => $active,
-            'inactive' => max(0, $total - $active),
+            'inactive' => $inactive,
+            'this_week' => $thisWeek,
+            'this_month' => $thisMonth,
+            'active_rate' => $total > 0 ? round(($active / $total) * 100, 1) : 0.0,
         ];
     }
 

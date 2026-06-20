@@ -160,7 +160,7 @@
 
     @if($user->isSuperAdmin())
     <div id="newsletter-view" class="view">
-        <div class="view-header users-view-header">
+        <div class="view-header users-view-header newsletter-view-header">
             <div>
                 <h2><i data-lucide="mail" class="lucide-icon" aria-hidden="true"></i> Newsletter</h2>
                 <p class="view-subtitle">Abonnés aux alertes e-mail du site</p>
@@ -174,20 +174,7 @@
             </div>
         </div>
 
-        <div class="payments-stats-grid" id="newsletterStatsGrid">
-            <div class="payments-stat-card">
-                <span class="payments-stat-card__label">Total</span>
-                <strong class="payments-stat-card__value" id="newsletterStatTotal">—</strong>
-            </div>
-            <div class="payments-stat-card">
-                <span class="payments-stat-card__label">Actifs</span>
-                <strong class="payments-stat-card__value" id="newsletterStatActive">—</strong>
-            </div>
-            <div class="payments-stat-card">
-                <span class="payments-stat-card__label">Inactifs</span>
-                <strong class="payments-stat-card__value" id="newsletterStatInactive">—</strong>
-            </div>
-        </div>
+        <div id="newsletterStatsGrid" class="stats-cards-row newsletter-stats-row" aria-label="Statistiques newsletter"></div>
 
         <div class="all-articles-filters users-filters">
             <div class="search-box">

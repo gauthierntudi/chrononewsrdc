@@ -1921,11 +1921,13 @@
     async function loadNewsletter({ skipIfCached = false } = {}) {
         const container = document.getElementById('newsletterTable');
         const pagination = document.getElementById('newsletterPagination');
+        const statsGrid = document.getElementById('newsletterStatsGrid');
         if (!container || !cfg.isSuperAdmin) return;
         if (skipIfCached && isViewLoaded('newsletter')) return;
 
         container.innerHTML = U.loadingHtml();
         if (pagination) pagination.innerHTML = '';
+        if (statsGrid) statsGrid.innerHTML = '';
 
         try {
             const params = new URLSearchParams({
@@ -1999,12 +2001,59 @@
     }
 
     function renderNewsletterStats(stats) {
-        const totalEl = document.getElementById('newsletterStatTotal');
-        const activeEl = document.getElementById('newsletterStatActive');
-        const inactiveEl = document.getElementById('newsletterStatInactive');
-        if (totalEl) totalEl.textContent = String(stats.total ?? 0);
-        if (activeEl) activeEl.textContent = String(stats.active ?? 0);
-        if (inactiveEl) inactiveEl.textContent = String(stats.inactive ?? 0);
+        const grid = document.getElementById('newsletterStatsGrid');
+        if (!grid) return;
+
+        const total = Number(stats.total ?? 0);
+        const active = Number(stats.active ?? 0);
+        const inactive = Number(stats.inactive ?? 0);
+        const thisWeek = Number(stats.this_week ?? 0);
+        const thisMonth = Number(stats.this_month ?? 0);
+        const activeRate = Number(stats.active_rate ?? 0).toFixed(1);
+
+        const cards = [
+            {
+                color: 'stat-card-blue',
+                icon: 'mail',
+                label: 'Total abonnés',
+                value: total,
+                hint: total === 1 ? 'inscrit sur le site' : 'inscrits sur le site',
+            },
+            {
+                color: 'stat-card-green',
+                icon: 'circle-check',
+                label: 'Abonnés actifs',
+                value: active,
+                hint: `${activeRate}% du total`,
+            },
+            {
+                color: 'stat-card-red',
+                icon: 'ban',
+                label: 'Abonnés inactifs',
+                value: inactive,
+                hint: inactive === 0 ? 'Aucune désinscription' : 'désactivés manuellement',
+            },
+            {
+                color: 'stat-card-purple',
+                icon: 'user-plus',
+                label: 'Nouveaux ce mois',
+                value: thisMonth,
+                hint: thisWeek > 0 ? `+${thisWeek} cette semaine` : 'Aucun cette semaine',
+            },
+        ];
+
+        grid.innerHTML = cards.map((c) => `
+            <div class="stat-card ${c.color} newsletter-stat-card">
+                <div class="stat-icon">${U.icon(c.icon)}</div>
+                <div class="stat-content">
+                    <div class="stat-label">${c.label}</div>
+                    <div class="stat-value">${c.value}</div>
+                    <div class="newsletter-stat-hint">${c.hint}</div>
+                </div>
+            </div>
+        `).join('');
+
+        U.refreshIcons(grid);
     }
 
     function renderNewsletterRow(subscriber) {
