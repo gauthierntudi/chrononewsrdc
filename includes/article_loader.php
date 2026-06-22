@@ -83,15 +83,16 @@ function get_previous_article($current_article_id, $current_date) {
           AND statut_paiement IN ('paye','gratuit')
           AND (
               date_add < :current_date
-              OR (date_add = :current_date AND id < :current_id)
+              OR (date_add = :current_date_eq AND id < :current_id)
           )
         ORDER BY date_add DESC, id DESC
         LIMIT 1
         ";
 
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':current_date', $current_date);
-        $stmt->bindParam(':current_id', $current_article_id, PDO::PARAM_INT);
+        $stmt->bindValue(':current_date', $current_date);
+        $stmt->bindValue(':current_date_eq', $current_date);
+        $stmt->bindValue(':current_id', $current_article_id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -117,15 +118,16 @@ function get_next_article($current_article_id, $current_date) {
           AND statut_paiement IN ('paye','gratuit')
           AND (
               date_add > :current_date
-              OR (date_add = :current_date AND id > :current_id)
+              OR (date_add = :current_date_eq AND id > :current_id)
           )
         ORDER BY date_add ASC, id ASC
         LIMIT 1
         ";
 
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':current_date', $current_date);
-        $stmt->bindParam(':current_id', $current_article_id, PDO::PARAM_INT);
+        $stmt->bindValue(':current_date', $current_date);
+        $stmt->bindValue(':current_date_eq', $current_date);
+        $stmt->bindValue(':current_id', $current_article_id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
