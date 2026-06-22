@@ -46,6 +46,9 @@ class ArticleController extends Controller
             ],
             'legacyHead' => [
                 'frontStylesheet' => '/css/styles-view.css',
+                'frontExtraStylesheets' => [
+                    '/css/chrononews-article-content.css',
+                ],
             ],
         ]);
     }

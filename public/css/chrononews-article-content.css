@@ -1,0 +1,64 @@
+/**
+ * Article viewer — flux de lecture continu (intro + blocs).
+ */
+.post_content.jl_content.cn-article-flow > p {
+    margin: 0 0 0.85em;
+}
+
+.post_content.jl_content.cn-article-flow > p:last-of-type {
+    margin-bottom: 0;
+}
+
+.post_content.jl_content.cn-article-flow > .article-block {
+    margin: 0 !important;
+}
+
+.post_content.jl_content.cn-article-flow .block-content {
+    margin: 0;
+}
+
+.post_content.jl_content.cn-article-flow .block-content > *:first-child {
+    margin-top: 0;
+}
+
+.post_content.jl_content.cn-article-flow .block-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.post_content.jl_content.cn-article-flow .block-content p {
+    margin: 0 0 0.85em;
+}
+
+.post_content.jl_content.cn-article-flow .block-content p:last-child {
+    margin-bottom: 0;
+}
+
+.post_content.jl_content.cn-article-flow .article-block__title {
+    margin: 1.1em 0 0.45em;
+    font-size: 1.35rem;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+.post_content.jl_content.cn-article-flow .article-block__media {
+    margin: 1.1em 0 0.65em;
+}
+
+.post_content.jl_content.cn-article-flow .article-block__media .article-block__caption,
+.post_content.jl_content.cn-article-flow .article-block__media figcaption {
+    margin: 0;
+}
+
+.post_content.jl_content.cn-article-flow .wp-block-image {
+    margin-top: 1.1em !important;
+    margin-bottom: 0.65em !important;
+}
+
+.post_content.jl_content.cn-article-flow .video-container,
+.post_content.jl_content.cn-article-flow .block-slider {
+    margin: 1.1em 0 0.65em;
+}
+
+.post_content.jl_content.cn-article-flow .block-slider {
+    position: relative;
+}

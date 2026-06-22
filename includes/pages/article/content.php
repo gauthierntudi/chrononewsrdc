@@ -339,7 +339,7 @@
                         </span>
                         
                         <div class="jls_con_w">
-                            <div class="post_content jl_content">
+                            <div class="post_content jl_content cn-article-flow">
                                 <?php if ($has_access): ?>
                                     <?php
                                     // --- AFFICHAGE COMPLET (ACCÈS AUTORISÉ) ---
@@ -375,7 +375,7 @@
                                         // Affichage des blocs
                                         if (!empty($blocks)) {
                                             foreach ($blocks as $block) {
-                                                echo '<div class="article-block" style="margin: 30px 0;">';
+                                                echo '<div class="article-block">';
 
                                                 // 1. Images ou vidéos en premier
                                                 if (!empty($block['videos'])) {
@@ -384,7 +384,7 @@
                                                     foreach ($block_videos as $video_url) {
                                                         $video_id = youtube_id_from_url($video_url);
                                                         if ($video_id) {
-                                                            echo '<div class="video-container" style="margin: 20px 0;">';
+                                                            echo '<div class="video-container article-block__media">';
                                                             echo '<iframe width="100%" height="500" src="https://www.youtube.com/embed/' . htmlspecialchars($video_id) . '?rel=0&modestbranding=1&showinfo=0&iv_load_policy=3" frameborder="0" allowfullscreen></iframe>';
                                                             echo '</div>';
                                                         }
@@ -395,14 +395,14 @@
 
                                                     if (count($block_images) > 1) {
                                                         // Slider pour plusieurs images
-                                                        echo '<div class="block-slider" style="position: relative; margin: 20px 0;">';
+                                                        echo '<div class="block-slider article-block__media">';
                                                         foreach ($block_images as $idx => $block_image) {
                                                             echo '<div class="slider-item" style="position: relative; display: ' . ($idx === 0 ? 'block' : 'none') . ';">';
                                                             echo '<img decoding="async" style="width: 100%; height: auto; display: block;" src="'.htmlspecialchars(cn_media_url($block_image)).'" alt="'.htmlspecialchars($block['titre'] ?? '').'" />';
 
                                                             // Légende en overlay
                                                             if (!empty($block['legende'])) {
-                                                                echo '<div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 20px 15px 10px; color: white;">';
+                                                                echo '<div class="article-block__caption" style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 20px 15px 10px; color: white;">';
                                                                 echo '<p style="margin: 0; font-size: 14px;">' . htmlspecialchars($block['legende']) . '</p>';
                                                                 echo '</div>';
                                                             }
@@ -412,7 +412,7 @@
                                                     } else {
                                                         // Image unique avec légende en overlay
                                                         foreach ($block_images as $block_image) {
-                                                            echo '<figure class="wp-block-image size-large" style="position: relative; margin: 20px 0;">';
+                                                            echo '<figure class="wp-block-image size-large article-block__media" style="position: relative;">';
                                                             echo '<img decoding="async" style="width: 100%; height: auto; display: block;" src="'.htmlspecialchars(cn_media_url($block_image)).'" alt="'.htmlspecialchars($block['titre'] ?? '').'" />';
 
                                                             // Légende en overlay
@@ -428,7 +428,7 @@
 
                                                 // 2. Titre du bloc
                                                 if (!empty($block['titre'])) {
-                                                    echo '<h2 style="margin: 20px 0 15px;">' . htmlspecialchars($block['titre']) . '</h2>';
+                                                    echo '<h2 class="article-block__title">' . htmlspecialchars($block['titre']) . '</h2>';
                                                 }
 
                                                 // 3. Contenu du bloc
